@@ -14,3 +14,8 @@ tools/picker/src/*
 tools/pdp-metadata/*
 plugins/experimentation/documentation/images/*
 _*.json
+
+# local-only mock of da.live nav content
+nav.plain.html
+drafts/
+footer.plain.html

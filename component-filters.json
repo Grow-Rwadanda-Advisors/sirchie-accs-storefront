@@ -81,5 +81,18 @@
       "text",
       "image"
     ]
+  },
+  {
+    "id": "hero-carousel",
+    "components": [
+      "hero-carousel-slide"
+    ]
+  },
+  {
+    "id": "trust-strip",
+    "components": [
+      "trust-strip-heading",
+      "trust-strip-stat"
+    ]
   }
 ]

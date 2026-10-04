@@ -130,6 +130,148 @@
   --nav-height: 6.4rem;
 }
 
+/*
+ * Sirchie brand tokens — generated from Figma variables
+ * File: enhVms6w5cfDF7sTj7jS1u ("Sirchie"), HIGH FIDELITY DESIGNS.
+ *
+ * Two layers, deliberately:
+ *   1. --sirchie-* : the raw design decisions, named as the designer named them.
+ *   2. the drop-in token overrides below : how those decisions reach the
+ *      Adobe commerce drop-ins (PDP, cart, checkout, account), which we style
+ *      but never restructure.
+ * Change layer 1 to re-skin the site. Touch layer 2 only when a mapping is wrong.
+ */
+
+/* stylelint-disable-next-line no-duplicate-selectors -- deliberate override layer */
+:root, .dropin-design {
+  /* --- palette (Figma: Colors/*) --- */
+  --sirchie-primary: #202a5b;
+  --sirchie-primary-deep: #161d3f;
+  --sirchie-primary-on: #fff;
+  --sirchie-primary-bg: #f7f8fc;
+  --sirchie-info: #3b81c7;
+  --sirchie-info-hover: #316eab;
+  --sirchie-info-border: #5d97d1;
+  --sirchie-info-focus: #c2d8ee;
+  --sirchie-accent: #ffad05;
+  --sirchie-text-body: #000000e5;
+  --sirchie-text-secondary: #0009;
+  --sirchie-text-disabled: #78909c;
+  --sirchie-neutral-bg: #f8f9f9;
+  --sirchie-neutral-disabled: #b0bec5;
+  --sirchie-surface: #fff;
+  --sirchie-black: #000;
+
+  /* --- type (Figma: Font Family/*, Heading/*, Body/*, Label/*, Button/*) ---
+   * Acumin Pro is an Adobe Fonts family and Nexa is licensed from Fontfabric;
+   * neither is self-hosted yet. Until the webfont files or Adobe Fonts kit are
+   * in place these stacks fall back and metrics will differ slightly from Figma.
+   */
+  --sirchie-font-heading: "Acumin Pro", "acumin-pro", "Helvetica Neue", helvetica, arial, sans-serif;
+  --sirchie-font-body: "Acumin Pro", "acumin-pro", "Helvetica Neue", helvetica, arial, sans-serif;
+
+  /* --- spacing / shape (Figma: spacing/*, radius/*, sizing/*) --- */
+  --sirchie-space-2xs: 0.2rem;
+  --sirchie-space-xs: 0.4rem;
+  --sirchie-space-sm: 0.8rem;
+  --sirchie-space-md: 1.2rem;
+  --sirchie-space-lg: 1.6rem;
+  --sirchie-space-xl: 2.4rem;
+  --sirchie-space-2xl: 3.2rem;
+  --sirchie-space-3xl: 4.8rem;
+  --sirchie-content-width: 128.4rem; /* Figma page content frame at 1440px */
+  --sirchie-radius-md: 8px;
+  --sirchie-radius-lg: 12px;
+  --sirchie-radius-full: 9999px;
+  --sirchie-icon-sm: 1.6rem;
+  --sirchie-icon-md: 2.4rem;
+  --sirchie-elevation-3: 0 4px 6px -2px #0000000d, 0 8px 16px -4px #0000001a;
+  --sirchie-elevation-4: 0 8px 10px -4px #0000000d, 0 16px 24px -6px #0000001a;
+
+  /* --- drop-in token overrides: brand ramp --- */
+  --color-brand-300: var(--sirchie-info);
+  --color-brand-500: var(--sirchie-info-hover);
+  --color-brand-600: var(--sirchie-primary);
+  --color-brand-700: var(--sirchie-primary-deep);
+  --color-button-active: var(--sirchie-primary-deep);
+  --color-button-hover: var(--sirchie-primary);
+  --color-button-focus: var(--sirchie-info-focus);
+
+  /* --- drop-in token overrides: status colours --- */
+  --color-informational-500: var(--sirchie-info);
+  --color-informational-800: var(--sirchie-info-hover);
+  --color-informational-200: var(--sirchie-info-focus);
+  --color-warning-500: var(--sirchie-accent);
+  --color-warning-800: #cc8a00;
+
+  /* --- drop-in token overrides: neutrals --- */
+  --color-neutral-100: var(--sirchie-neutral-bg);
+  --color-neutral-200: var(--sirchie-primary-bg);
+  --color-neutral-500: var(--sirchie-neutral-disabled);
+  --color-neutral-700: var(--sirchie-text-disabled);
+  --color-neutral-800: var(--sirchie-text-body);
+  --color-neutral-900: var(--sirchie-primary-deep);
+
+  /* --- drop-in token overrides: shape --- */
+  --shape-border-radius-1: var(--sirchie-radius-md);
+  --shape-border-radius-2: var(--sirchie-radius-lg);
+  --shape-border-radius-3: var(--sirchie-radius-md);
+  --shape-shadow-1: var(--sirchie-elevation-3);
+  --shape-shadow-2: var(--sirchie-elevation-4);
+
+  /* --- drop-in token overrides: typography ---
+   * Figma scale, in rem (html is 62.5%, so 1rem = 10px).
+   * Display/Small 60/60 · H1 40/44 · H2 32/34 · H4 20/24 · H6 14/20
+   * Body/Large 20/34 · Body/Base 16/24 · P2 14/20
+   * Label/Large 20/22 · Label/Base 14/20 · Price/Large 24/28
+   * Button/ExtraLarge 20/24 · Button/Large 16/22
+   * h1–h4 and the drop-in display tokens follow H1 / H2 / Price-Large / H4, so page titles
+   * across commerce pages sit on the same scale as the homepage. Display/Small (60) is used
+   * only by the trust strip, which sets it directly.
+   */
+  --type-base-font-family: var(--sirchie-font-body);
+  --type-display-1-font: normal normal 700 4rem/4.4rem var(--sirchie-font-heading);
+  --type-display-1-letter-spacing: 0;
+  --type-display-2-font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+  --type-display-2-letter-spacing: 0;
+  --type-display-3-font: normal normal 700 2.4rem/2.8rem var(--sirchie-font-heading);
+  --type-display-3-letter-spacing: 0;
+  --type-headline-1-font: normal normal 700 2rem/2.4rem var(--sirchie-font-heading);
+  --type-headline-1-letter-spacing: 0;
+  --type-headline-2-default-font: normal normal 400 2rem/2.4rem var(--sirchie-font-heading);
+  --type-headline-2-default-letter-spacing: 0;
+  --type-headline-2-strong-font: normal normal 700 2rem/2.4rem var(--sirchie-font-heading);
+  --type-headline-2-strong-letter-spacing: 0;
+  --type-body-1-default-font: normal normal 400 1.6rem/2.4rem var(--sirchie-font-body);
+  --type-body-1-default-letter-spacing: 0;
+  --type-body-1-strong-font: normal normal 700 1.6rem/2.4rem var(--sirchie-font-body);
+  --type-body-1-strong-letter-spacing: 0;
+  --type-body-1-emphasized-font: normal normal 700 1.6rem/2.4rem var(--sirchie-font-body);
+  --type-body-1-emphasized-letter-spacing: 0;
+  --type-body-2-default-font: normal normal 400 1.4rem/2rem var(--sirchie-font-body);
+  --type-body-2-default-letter-spacing: 0;
+  --type-body-2-strong-font: normal normal 700 1.4rem/2rem var(--sirchie-font-body);
+  --type-body-2-strong-letter-spacing: 0;
+  --type-body-2-emphasized-font: normal normal 700 1.4rem/2rem var(--sirchie-font-body);
+  --type-body-2-emphasized-letter-spacing: 0;
+  --type-button-1-font: normal normal 700 2rem/2.4rem var(--sirchie-font-body);
+  --type-button-1-letter-spacing: 0;
+  --type-button-2-font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+  --type-button-2-letter-spacing: 0;
+
+  /* --- page chrome --- */
+  --background-color: var(--sirchie-surface);
+  --nav-height: 6.4rem;
+}
+
+/* Desktop header is three rows (Figma 212:2400): utility bar 53px, brand row 94px,
+   category row 41px. Reserved here, before the header block loads, to avoid layout shift. */
+@media (min-width: 900px) {
+  :root {
+    --nav-height: 18.8rem;
+  }
+}
+
 /* fallback font */
 @font-face {
   font-family: adobe-clean;
@@ -149,8 +291,8 @@ body {
   font: var(--type-body-1-default-font);
   letter-spacing: var(--type-body-1-default-letter-spacing);
   margin: 0;
-  color: var(--color-neutral-800);
-  background-color: var(--background-color);
+  color: var(--sirchie-text-body);
+  background-color: var(--sirchie-primary-bg);
   display: grid;
   grid-template-rows: auto 1fr auto;
   grid-template-columns: 100%;
@@ -192,6 +334,7 @@ h5,
 h6 {
   margin-top: 0.8em;
   margin-bottom: 0.25em;
+  color: var(--sirchie-primary-deep);
   line-height: 1.25;
   scroll-margin: 40px;
 }
@@ -457,7 +600,7 @@ main img {
 
 /* sections */
 main > .section {
-  margin: var(--spacing-xbig) 0;
+  margin: var(--sirchie-space-3xl) 0;
 }
 
 .section:empty {
@@ -465,18 +608,22 @@ main > .section {
 }
 
 main > .section > div {
-  max-width: 1200px;
+  max-width: var(--sirchie-content-width);
   margin: auto;
-  padding: 0 var(--spacing-medium);
+  padding: 0 var(--sirchie-space-md);
 }
 
 main > .section:first-of-type {
-  margin-top: 0;
+  margin-top: var(--sirchie-space-xl);
 }
 
 @media (min-width: 900px) {
   main > .section > div {
     padding: 0 var(--spacing-big);
+  }
+
+  main > .section:first-of-type {
+    margin-top: var(--sirchie-space-3xl);
   }
 }
 
@@ -647,3 +794,60 @@ body.columns main > .section:empty {
 main[hidden] {
   display: none !important;
 }
+
+/*
+ * Sirchie chevron call to action — Figma "Hero Button" (130:571): a solid block, an
+ * angled end (21×52) and a detached slash (35.47×52). Blocks opt in by adding
+ * .button-chevron to an authored button. Both end shapes come from one masked
+ * pseudo-element painted in --button-chevron-color, so variants only change that colour.
+ * no-descending-specificity is disabled: this rule follows the boilerplate button rules
+ * and wins on specificity.
+ */
+/* stylelint-disable no-descending-specificity */
+main a.button.button-chevron:any-link {
+  --button-chevron-color: var(--sirchie-info-hover);
+
+  position: relative;
+  gap: 1rem;
+  height: 5.2rem;
+  margin-inline-end: 5.6472rem;
+  padding: 0 var(--sirchie-space-lg);
+  border: 0;
+  border-radius: 0;
+  background-color: var(--button-chevron-color);
+  color: var(--sirchie-primary-on);
+  font: var(--type-button-1-font);
+  overflow: visible;
+}
+
+main a.button.button-chevron:hover,
+main a.button.button-chevron:focus-visible {
+  --button-chevron-color: var(--sirchie-primary);
+
+  background-color: var(--button-chevron-color);
+  color: var(--sirchie-primary-on);
+  text-decoration: none;
+}
+
+main a.button.button-chevron::after {
+  content: '';
+  flex: none;
+  width: 1.6rem;
+  height: 1.6rem;
+  background-color: currentcolor;
+  mask: url('../icons/sirchie/chevron-next.svg') center / contain no-repeat;
+}
+
+main a.button.button-chevron::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 100%;
+  width: 5.6472rem;
+  height: 100%;
+  background-color: var(--button-chevron-color);
+  mask:
+    url('../icons/sirchie/button-chevron-end.svg') 0 0 / 2.1rem 100% no-repeat,
+    url('../icons/sirchie/button-chevron-slash.svg') 2.1rem 0 / 3.5472rem 100% no-repeat;
+}
+/* stylelint-enable no-descending-specificity */

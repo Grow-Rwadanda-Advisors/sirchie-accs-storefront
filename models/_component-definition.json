@@ -48,6 +48,15 @@
           "...": "../blocks/hero/_*.json#/definitions"
         },
         {
+          "...": "../blocks/hero-carousel/_*.json#/definitions"
+        },
+        {
+          "...": "../blocks/promo-card/_*.json#/definitions"
+        },
+        {
+          "...": "../blocks/trust-strip/_*.json#/definitions"
+        },
+        {
           "...": "../blocks/targeted-block/_*.json#/definitions"
         },
         {

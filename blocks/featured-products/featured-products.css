@@ -1,0 +1,55 @@
+/*
+ * Featured Products — Figma 125:516: section header with a rule, then a grid of product
+ * cards. The cards themselves are the drop-in product cards styled in styles/lazy-styles.css,
+ * so listing, search and this block stay identical.
+ */
+
+.featured-products {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sirchie-space-3xl);
+}
+
+.featured-products .featured-products-header {
+  display: grid;
+  grid-template-columns: auto minmax(2rem, 1fr);
+  align-items: center;
+  column-gap: 2rem;
+}
+
+.featured-products .featured-products-header h2 {
+  grid-column: 1;
+  margin: 0;
+  color: var(--sirchie-primary-deep);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+}
+
+.featured-products .featured-products-subtitle {
+  grid-column: 1;
+  margin: 0;
+  color: var(--sirchie-text-secondary);
+  font: normal normal 400 1.6rem/2.4rem var(--sirchie-font-body);
+}
+
+/* the rule that runs from the title to the edge of the section */
+.featured-products .featured-products-header::after {
+  content: '';
+  grid-row: 1 / -1;
+  grid-column: 2;
+  align-self: center;
+  height: 1px;
+  background-color: var(--sirchie-neutral-disabled);
+}
+
+/* Figma card text: 20/22 bold secondary name, 14/20 bold secondary SKU */
+.featured-products .featured-products-name {
+  color: var(--sirchie-text-secondary);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+  text-decoration: none;
+}
+
+.featured-products .featured-products-sku {
+  margin: var(--sirchie-space-xs) 0 0;
+  color: var(--sirchie-text-secondary);
+  font: normal normal 700 1.4rem/2rem var(--sirchie-font-body);
+}

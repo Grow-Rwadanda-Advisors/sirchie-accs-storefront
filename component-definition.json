@@ -262,6 +262,126 @@
           }
         },
         {
+          "title": "Hero Carousel",
+          "id": "hero-carousel",
+          "model": "hero-carousel",
+          "filter": "hero-carousel",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 2
+            }
+          }
+        },
+        {
+          "title": "Hero Carousel Slide",
+          "id": "hero-carousel-slide",
+          "model": "hero-carousel-slide",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 2,
+              "fields": [
+                {
+                  "name": "image",
+                  "selector": "div:nth-child(1)>p:nth-child(1)>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div:nth-child(1)>p:nth-child(1)>picture>img[alt]"
+                },
+                {
+                  "name": "mobileImage",
+                  "selector": "div:nth-child(1)>p:nth-child(2)>picture>img[src]"
+                },
+                {
+                  "name": "mobileImageAlt",
+                  "selector": "div:nth-child(1)>p:nth-child(2)>picture>img[alt]"
+                },
+                {
+                  "name": "content",
+                  "selector": "div:nth-child(2)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Promo Card",
+          "id": "promo-card",
+          "model": "promo-card",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 2,
+              "fields": [
+                {
+                  "name": "content",
+                  "selector": "div>div:nth-child(1)"
+                },
+                {
+                  "name": "image",
+                  "selector": "div>div:nth-child(2)>picture>img[src]"
+                },
+                {
+                  "name": "imageAlt",
+                  "selector": "div>div:nth-child(2)>picture>img[alt]"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Trust Strip",
+          "id": "trust-strip",
+          "model": "trust-strip",
+          "filter": "trust-strip",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1
+            }
+          }
+        },
+        {
+          "title": "Trust Strip Heading",
+          "id": "trust-strip-heading",
+          "model": "trust-strip-heading",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 1,
+              "fields": [
+                {
+                  "name": "heading",
+                  "selector": "div:nth-child(1)"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "title": "Trust Strip Stat",
+          "id": "trust-strip-stat",
+          "model": "trust-strip-stat",
+          "plugins": {
+            "da": {
+              "rows": 1,
+              "columns": 2,
+              "fields": [
+                {
+                  "name": "value",
+                  "selector": "div:nth-child(1)"
+                },
+                {
+                  "name": "label",
+                  "selector": "div:nth-child(2)"
+                }
+              ]
+            }
+          }
+        },
+        {
           "title": "Targeted Block",
           "id": "targeted-block",
           "model": "targeted-block",

@@ -127,3 +127,303 @@
   overflow: hidden;
   white-space: nowrap;
 }
+
+/*
+ * Sirchie product page — Figma 261:1219: 560px gallery beside the info column, 40px apart.
+ * Title 40/44 navy, price 40/44 blue with the SKU right-aligned on the same row, quantity
+ * row, navy Add To Cart, then the wish list and email actions.
+ */
+
+.product-details .product-details__header .pdp-header__title {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 4rem/4.4rem var(--sirchie-font-heading);
+}
+
+.product-details .product-details__price {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sirchie-space-sm);
+  padding-bottom: var(--sirchie-space-xl);
+  border-bottom: 1px solid var(--sirchie-text-disabled);
+}
+
+.product-details .product-details__price .dropin-price,
+.product-details .product-details__price .pdp-price__amount {
+  color: var(--sirchie-info-hover);
+  font: normal normal 700 4rem/4.4rem var(--sirchie-font-heading);
+}
+
+.product-details .product-details__sku {
+  flex: none;
+  color: var(--sirchie-text-secondary);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+}
+
+.product-details .product-details__quantity .dropin-incrementer__label,
+.product-details .product-details__quantity label {
+  color: var(--sirchie-black);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+}
+
+/* Figma: the product page Add To Cart is navy, unlike the blue card buttons */
+.product-details .product-details__buttons__add-to-cart .dropin-button--primary {
+  height: 4rem;
+  min-height: 4rem;
+  padding: 0 var(--sirchie-space-xl);
+  border-color: var(--sirchie-primary);
+  background-color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+.product-details .product-details__buttons__add-to-cart .dropin-button--primary:hover {
+  border-color: var(--sirchie-primary-deep);
+  background-color: var(--sirchie-primary-deep);
+}
+
+.product-details .product-details__buttons {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  justify-items: start;
+  gap: var(--sirchie-space-xl);
+}
+
+.product-details .product-details__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sirchie-space-2xl);
+}
+
+.product-details .product-details__action,
+.product-details .product-details__buttons__add-to-wishlist button {
+  display: flex;
+  align-items: center;
+  gap: var(--sirchie-space-xs);
+  height: 4.8rem;
+  padding: var(--sirchie-space-md);
+  border: 0;
+  border-radius: var(--sirchie-radius-md);
+  background: none;
+  color: var(--sirchie-text-secondary);
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.product-details .product-details__action-label {
+  color: var(--sirchie-text-secondary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+  white-space: nowrap;
+}
+
+/* Figma icons: filled heart and mail, 24px */
+.product-details .product-details__action--email::before {
+  content: '';
+  flex: none;
+  width: 2.4rem;
+  height: 2.4rem;
+  background-color: currentcolor;
+  mask: url('../../icons/sirchie/mail-filled.svg') center / contain no-repeat;
+}
+
+.product-details .product-details__buttons__add-to-wishlist button svg {
+  width: 2.4rem;
+  height: 2.4rem;
+}
+
+/* the wishlist button is icon-only by default; Figma labels it */
+.product-details .product-details__buttons__add-to-wishlist button {
+  width: auto;
+  min-width: 0;
+  overflow: visible;
+}
+
+/* the drop-in leaves empty containers behind when a product has no options */
+.product-details .product-details__options:empty,
+.product-details .product-details__gift-card-options:empty,
+.product-details .product-details__options:has(> div:empty),
+.product-details .product-details__gift-card-options:has(> div:empty) {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  /* Figma: 560px gallery, 40px gap, info column fills the rest. The boilerplate spans
+     these columns across its own 12-column grid, so both are reassigned here. */
+  .product-details .product-details__wrapper {
+    display: grid;
+    grid-template-columns: 56rem minmax(0, 1fr);
+    align-items: start;
+    gap: 4rem;
+  }
+
+  .product-details .product-details__left-column {
+    grid-column: 1;
+  }
+
+  .product-details .product-details__right-column {
+    display: flex;
+    flex-direction: column;
+    grid-column: 2;
+    gap: var(--sirchie-space-2xl);
+  }
+
+  /* main image 495px tall, thumbnails 91x80 beneath it (selected 136x120) */
+  .product-details .product-details__left-column .pdp-carousel__wrapper {
+    height: 49.5rem;
+  }
+
+  .product-details .product-details__left-column .pdp-carousel__slide img {
+    height: 49.5rem;
+    object-fit: contain;
+  }
+
+  .product-details .product-details__left-column .pdp-carousel__controls--thumbnailsRow {
+    gap: var(--sirchie-space-md);
+    height: auto;
+    justify-content: center;
+  }
+
+  .product-details .product-details__left-column .pdp-carousel__thumbnail__container {
+    width: 9.1rem;
+    height: 8rem;
+  }
+
+  .product-details .product-details__left-column .pdp-carousel__thumbnail__span {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Figma: the selected thumbnail is 136x120 with a 4px blue border */
+  .product-details .product-details__left-column .pdp-carousel__thumbnail__container:has(input:checked) {
+    width: 13.6rem;
+    height: 12rem;
+    border: 4px solid var(--sirchie-info-hover);
+    border-radius: 0.4rem;
+    box-sizing: border-box;
+  }
+
+  .product-details .product-details__left-column .pdp-carousel__thumbnail__container img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0.4rem;
+    object-fit: contain;
+  }
+}
+
+/* Figma: compact quantity field beside its label */
+.product-details .product-details__quantity {
+  display: flex;
+  align-items: center;
+  gap: var(--sirchie-space-xl);
+}
+
+.product-details .product-details__quantity .dropin-incrementer {
+  width: auto;
+}
+
+.product-details .product-details__quantity .dropin-incrementer__input {
+  width: 6rem;
+  min-width: 0;
+}
+
+/* Figma's Add To Cart is text only */
+.product-details .product-details__buttons__add-to-cart .dropin-button--primary svg {
+  display: none;
+}
+
+/* the short description is shown in the Description accordion, not above the quantity */
+.product-details .product-details__short-description {
+  display: none;
+}
+
+/* accordions: navy uppercase title, rule above, minus when open and plus when closed */
+.product-details .product-details__accordion {
+  border-top: 1px solid var(--sirchie-text-secondary);
+}
+
+.product-details .product-details__accordion-summary {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sirchie-space-md);
+  padding: var(--sirchie-space-xl) var(--sirchie-space-sm);
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+  text-transform: uppercase;
+  cursor: pointer;
+  list-style: none;
+}
+
+.product-details .product-details__accordion-summary::-webkit-details-marker {
+  display: none;
+}
+
+.product-details .product-details__accordion-summary::after,
+.product-details .product-details__accordion-summary::before {
+  content: '';
+  flex: none;
+  width: 3.2rem;
+  height: 3.2rem;
+  background-color: var(--sirchie-primary);
+  mask: url('../../icons/sirchie/minus-outline.svg') center / contain no-repeat;
+}
+
+/* closed: a second copy of the same minus, rotated, forms the plus */
+.product-details .product-details__accordion-summary::before {
+  position: absolute;
+  right: var(--sirchie-space-sm);
+  display: none;
+  transform: rotate(90deg);
+}
+
+.product-details .product-details__accordion:not([open]) .product-details__accordion-summary::before {
+  display: block;
+}
+
+.product-details .product-details__accordion-body {
+  padding: var(--sirchie-space-lg);
+  color: var(--sirchie-primary);
+  font: normal normal 400 2rem/3.4rem var(--sirchie-font-body);
+}
+
+.product-details .product-details__accordion-body .pdp-attributes__title {
+  display: none;
+}
+
+.product-details .product-details__accordion-body a {
+  color: var(--sirchie-info-hover);
+  text-decoration: underline;
+}
+
+@media (min-width: 900px) {
+  .product-details .product-details__description {
+    grid-column: 1 / -1;
+  }
+}
+
+/* the add-to-cart status line is empty until something is added */
+.product-details .product-details__add-to-cart-status:empty {
+  display: none;
+}
+
+/* Related products: Figma gives it the Featured Products header, title plus a rule */
+.product-recommendations .recommendations-product-list__heading {
+  display: grid;
+  grid-template-columns: auto minmax(2rem, 1fr);
+  align-items: center;
+  column-gap: 2rem;
+  margin-bottom: var(--sirchie-space-3xl);
+}
+
+.product-recommendations .recommendations-product-list__heading > div {
+  color: var(--sirchie-primary-deep);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+}
+
+.product-recommendations .recommendations-product-list__heading::after {
+  content: '';
+  height: 1px;
+  background-color: var(--sirchie-neutral-disabled);
+}

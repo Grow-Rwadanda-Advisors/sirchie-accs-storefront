@@ -1,13 +1,14 @@
 footer {
-    background-color: var(--color-neutral-100);
-    font: var(--type-body-2-default-font);
-    letter-spacing: var(--type-body-2-default-letter-spacing);
+    background-color: var(--sirchie-primary);
+    color: var(--sirchie-primary-on);
+    font: var(--type-body-1-default-font);
+    letter-spacing: var(--type-body-1-default-letter-spacing);
 }
 
 footer .footer > div {
     margin: auto;
-    max-width: 1200px;
-    padding: 40px 24px 24px;
+    max-width: var(--sirchie-content-width);
+    padding: var(--sirchie-space-3xl) var(--sirchie-space-md) 0;
 }
 
 footer .footer p {
@@ -68,6 +69,144 @@ footer .footer p {
 
 @media (min-width: 900px) {
     footer .footer > div {
-        padding: 40px 32px 24px;
+        padding: 6.4rem var(--spacing-big) 0;
     }
+}
+
+/* Sirchie footer — Figma 159:826 (desktop), 370:2141 (mobile variant) */
+footer .footer a:any-link {
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+}
+
+footer .footer a:any-link:hover {
+    color: inherit;
+    text-decoration: underline;
+}
+
+footer .footer .footer-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sirchie-space-2xl);
+}
+
+footer .footer .footer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sirchie-space-lg);
+}
+
+footer .footer .footer-column :is(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    color: inherit;
+    font: normal normal 700 2rem/2.4rem var(--sirchie-font-heading);
+    letter-spacing: 0;
+}
+
+footer .footer .footer-column ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sirchie-space-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+footer .footer .footer-brand img {
+    display: block;
+    width: 17.9rem;
+    height: 4.6rem;
+}
+
+footer .footer .footer-signup {
+    gap: var(--sirchie-space-md);
+}
+
+footer .footer .footer-signup p:not(.button-wrapper) {
+    font: normal normal 400 1.4rem/2.1rem var(--sirchie-font-body);
+}
+
+footer .footer .footer-signup .button-wrapper {
+    align-self: stretch;
+    margin: var(--sirchie-space-xs) 0 0;
+}
+
+footer .footer .footer-signup a.button {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: var(--sirchie-space-md) var(--sirchie-space-xl);
+    border: 0;
+    border-radius: var(--sirchie-radius-md);
+    background-color: var(--sirchie-info-hover);
+    color: var(--sirchie-primary-on);
+    font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+    text-decoration: none;
+}
+
+footer .footer .footer-signup a.button:hover {
+    background-color: var(--sirchie-info);
+    text-decoration: none;
+}
+
+footer .footer .footer-legal {
+    margin-top: var(--sirchie-space-3xl);
+    border-top: 1px solid var(--sirchie-text-secondary);
+}
+
+footer .footer .footer-legal .default-content-wrapper {
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sirchie-space-sm) var(--sirchie-space-xl);
+    min-height: 5.4rem;
+    padding-block: var(--sirchie-space-lg);
+    font: normal normal 400 1.4rem/2rem var(--sirchie-font-body);
+}
+
+footer .footer .footer-legal ul {
+    display: flex;
+    align-items: center;
+    gap: var(--sirchie-space-sm);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+footer .footer .footer-legal li + li::before {
+    content: '';
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-inline-end: var(--sirchie-space-sm);
+    border-radius: var(--sirchie-radius-full);
+    background-color: currentcolor;
+    vertical-align: middle;
+}
+
+@media (min-width: 900px) {
+    footer .footer .footer-columns {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--sirchie-space-3xl);
+    }
+
+    footer .footer .footer-signup {
+        padding-block: 2rem;
+    }
+
+    footer .footer .footer-legal .default-content-wrapper {
+        padding-block: 0;
+    }
+}
+
+/* store switcher (multistore only) inherits the navy footer's colours */
+footer .footer .storeview-switcher-button,
+footer .footer .storeview-switcher-button button {
+    color: inherit;
 }

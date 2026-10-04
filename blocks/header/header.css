@@ -8,11 +8,12 @@
 
 /* header and nav layout */
 header .nav-wrapper {
-  background-color: var(--background-color);
+  background-color: var(--sirchie-primary);
+  color: var(--sirchie-primary-on);
   width: 100%;
   z-index: 3;
   position: fixed;
-  border-bottom: 1px solid var(--color-neutral-300);
+  box-shadow: 0 16px 12px rgb(0 0 0 / 10%), 0 8px 5px rgb(0 0 0 / 5%);
 }
 
 header nav {
@@ -31,8 +32,8 @@ header nav {
 
 header nav[aria-expanded='true'] {
   grid-template:
-    'hamburger brand' var(--nav-height) 'sections sections' 1fr
-    'tools tools' var(--nav-height) / auto 1fr;
+    'hamburger brand' var(--nav-height) 'utility utility' auto 'cta cta' auto
+    'sections sections' 1fr 'tools tools' var(--nav-height) / auto 1fr;
   overflow-y: auto;
   min-height: 100dvh;
 }
@@ -42,12 +43,20 @@ header nav[aria-expanded='true'] {
     position: relative;
   }
 
-  header nav {
-    display: flex;
-    justify-content: space-between;
-    gap: 0 32px;
-    max-width: 1264px;
-    padding: 0 32px;
+  /* Figma 212:2400: utility bar / brand row / category row, full width, 32px gutters.
+     [aria-expanded] is repeated because toggleMenu keeps nav expanded on desktop and
+     the mobile expanded grid would otherwise win on specificity. */
+  header nav,
+  header nav[aria-expanded='true'] {
+    display: grid;
+    grid-template:
+      'utility utility utility' 5.3rem
+      'brand cta tools' 9.4rem
+      'sections sections sections' 4.1rem / auto 1fr auto;
+    gap: 0 var(--sirchie-space-lg);
+    max-width: none;
+    padding: 0 var(--sirchie-space-2xl);
+    position: relative;
   }
 
   header nav[aria-expanded='true'] {
@@ -76,7 +85,7 @@ header nav .nav-hamburger button {
   border: 0;
   border-radius: 0;
   padding: 0;
-  background-color: var(--color-neutral-50);
+  background-color: transparent;
   color: inherit;
   overflow: initial;
   text-overflow: initial;
@@ -145,6 +154,7 @@ header nav[aria-expanded='true'] .nav-hamburger-icon::after {
 
 /* brand */
 header nav .nav-brand {
+  grid-area: brand;
   min-width: 128px;
 }
 
@@ -228,8 +238,8 @@ header nav .nav-sections ul>li:empty {
 
   header nav .nav-sections .default-content-wrapper>ul>li,
   header nav .nav-sections .nav-drop {
-    border-radius: 4px;
-    padding: 0 var(--spacing-small);
+    border-radius: var(--sirchie-radius-md);
+    padding: var(--sirchie-space-2xs);
   }
 
   header nav .nav-sections .default-content-wrapper>ul>li a {
@@ -238,7 +248,7 @@ header nav .nav-sections ul>li:empty {
 
   header nav .nav-sections ul {
     display: flex;
-    gap: 24px;
+    gap: clamp(1.6rem, 2.2vw, 3.2rem);
     margin: 0;
   }
 
@@ -247,26 +257,24 @@ header nav .nav-sections ul>li:empty {
     position: relative;
   }
 
-  header nav .nav-sections .nav-drop[aria-expanded='true'] ul {
-    flex-flow: column wrap;
-    max-height: calc(var(--desktop-panel-max-height) - 2 * var(--spacing-xbig));
-    min-height: calc(var(--desktop-panel-min-height) - 2 * var(--spacing-xbig));
-  }
-
   header nav .nav-sections .default-content-wrapper>ul>li {
     flex: 0 1 auto;
   }
 
   header nav .nav-sections .default-content-wrapper>ul>li[aria-expanded='true'] .submenu-wrapper {
-    background-color: var(--color-neutral-50);
+    background-color: var(--sirchie-surface);
+    box-shadow: var(--sirchie-elevation-4);
     box-sizing: border-box;
+    color: var(--sirchie-text-body);
     left: 0;
     max-height: var(--desktop-panel-max-height);
-    min-height: var(--desktop-panel-min-height);
-    padding: var(--spacing-xbig);
+    overflow-y: auto;
+    padding: var(--sirchie-space-lg);
     position: absolute;
-    top: var(--spacing-large);
+    top: 100%;
+    white-space: normal;
     width: 100%;
+    z-index: 4;
   }
 
   header nav .nav-sections .default-content-wrapper>ul>li .submenu-header {
@@ -280,32 +288,22 @@ header nav .nav-sections ul>li:empty {
   }
 
   header nav .nav-sections .default-content-wrapper>ul>li[aria-expanded='true'] ul {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: minmax(4.4rem, auto);
+    gap: 1rem;
     margin: 0 auto;
-    overflow-x: auto;
-    width: var(--desktop-large-panel-width);
-  }
-
-  header nav .nav-sections .default-content-wrapper>ul>li ul::before {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: 16px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;
-    border-bottom: 8px solid var(--color-neutral-500);
+    max-width: 124.8rem;
   }
 
   header nav .nav-sections .default-content-wrapper>ul>li ul>li {
-    min-width: var(--desktop-item-panel-min-width);
-    max-width: var(--desktop-item-panel-max-width);
+    display: flex;
+    min-width: 0;
   }
 
   header nav .nav-sections .default-content-wrapper>ul>li:hover,
   header nav .nav-sections .nav-drop[aria-expanded='true'] {
-    background-color: var(--color-neutral-200);
+    background-color: var(--color-opacity-16);
   }
 }
 
@@ -315,6 +313,7 @@ header nav .nav-tools-panel {
   position: absolute;
   box-shadow: var(--shape-shadow-2);
   background: var(--background-color);
+  color: var(--sirchie-text-body);
   top: var(--nav-height);
   right: 0;
   width: 100%;
@@ -330,9 +329,9 @@ header nav .nav-tools {
   grid-area: tools;
   display: flex;
   height: 100%;
-  gap: var(--spacing-small);
+  gap: var(--sirchie-space-sm);
   align-items: center;
-  background: var(--background-color);
+  background: transparent;
   z-index: 3;
 }
 
@@ -355,10 +354,32 @@ header nav .nav-sections .authCombineNavElement button {
 }
 
 header nav .nav-tools button.nav-cart-button {
-  background-image: url('../../icons/cart.svg');
-  background-repeat: no-repeat;
-  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: relative;
+  color: var(--sirchie-primary-on);
+}
+
+/* Figma glyphs as masks, so colour follows the design rather than the export */
+header nav .nav-tools button.nav-cart-button::before,
+header nav .nav-tools button.nav-search-button::after {
+  content: '';
+  flex: none;
+  width: 2.4rem;
+  height: 2.4rem;
+  background-color: currentcolor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+}
+
+header nav .nav-tools button.nav-cart-button::before {
+  mask-image: url('../../icons/sirchie/cart.svg');
+}
+
+header nav .nav-tools button.nav-search-button::after {
+  mask-image: url('../../icons/sirchie/search.svg');
 }
 
 header nav .nav-tools button.nav-cart-button[data-count]::after {
@@ -366,8 +387,8 @@ header nav .nav-tools button.nav-cart-button[data-count]::after {
   position: absolute;
   top: 0;
   right: -2px;
-  background-color: var(--color-brand-700);
-  color: var(--color-neutral-100);
+  background-color: var(--sirchie-accent);
+  color: var(--sirchie-primary-deep);
   border-radius: 50%;
   width: 1.75em;
   height: 1.75em;
@@ -397,10 +418,11 @@ header nav .nav-tools button.nav-wishlist-button {
 }
 
 header nav .nav-tools button.nav-search-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0;
-  background-image: url('../../icons/search.svg');
-  background-repeat: no-repeat;
-  background-position: center;
+  color: var(--sirchie-primary-on);
 }
 
 header .nav-search-panel {
@@ -490,7 +512,7 @@ header .nav-search-input .search_autocomplete .popover-container {
   }
 
   header nav .nav-tools-panel {
-    top: calc(-12px + var(--nav-height));
+    top: calc(100% + var(--sirchie-space-sm));
   }
 
   header nav .minicart-panel {
@@ -662,7 +684,7 @@ header .nav-search-input .search_autocomplete .popover-container {
   }
 
   header nav[aria-expanded='true'] .nav-tools {
-    background: var(--background-color);
+    background: var(--sirchie-primary);
     bottom: 0;
     height: auto;
     left: 0;
@@ -741,6 +763,7 @@ header .nav-search-input .search_autocomplete .popover-container {
 
   header nav .nav-sections ul>li.nav-drop.active .submenu-wrapper {
     background: var(--background-color);
+    color: var(--sirchie-text-body);
     display: block;
     height: 100%;
     left: 0;
@@ -903,3 +926,249 @@ body:has(.seller-assisted-buying-banner) {
     display: inline-block;
   }
 }
+
+/*
+ * Sirchie header — Figma 212:2400 (header), 52:3947 (mega menu).
+ * Nav document sections, in order: brand, sections, tools, utility, cta.
+ * See header.js for how utility paragraphs are split.
+ *
+ * no-descending-specificity is disabled for this appended layer: these rules
+ * intentionally follow the boilerplate's and win on specificity, not order.
+ */
+/* stylelint-disable no-descending-specificity */
+
+header nav .nav-utility {
+  grid-area: utility;
+}
+
+header nav .nav-cta {
+  grid-area: cta;
+}
+
+header nav .nav-utility,
+header nav .nav-cta {
+  display: none;
+}
+
+header nav[aria-expanded='true'] .nav-utility,
+header nav[aria-expanded='true'] .nav-cta {
+  display: block;
+}
+
+/* links in the chrome follow the row colour, not the global navy link style */
+header nav .nav-brand a,
+header nav .nav-utility a,
+header nav .nav-sections a {
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+}
+
+header nav .nav-utility a:hover {
+  color: inherit;
+}
+
+header nav .nav-tools .wishlist-wrapper {
+  display: none;
+}
+
+/* utility bar */
+header nav .nav-utility .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sirchie-space-lg) var(--sirchie-space-2xl);
+  font: var(--type-body-1-default-font);
+}
+
+header nav .nav-utility ul {
+  display: flex;
+  gap: var(--sirchie-space-lg);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+header nav .nav-utility .default-content-wrapper > p {
+  color: var(--sirchie-info-focus);
+}
+
+header nav .nav-utility .default-content-wrapper > p a {
+  white-space: nowrap;
+}
+
+header nav .nav-account {
+  display: flex;
+  align-items: center;
+  margin-inline-start: auto;
+}
+
+header nav .nav-account > a,
+header nav .nav-account .dropdown-wrapper.nav-tools-wrapper .nav-dropdown-button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  height: 4.8rem;
+  padding: var(--sirchie-space-2xs) var(--sirchie-space-md);
+  color: var(--sirchie-primary-on);
+  font: var(--type-body-1-strong-font) !important;
+}
+
+header nav .nav-account--authenticated > a,
+header nav .nav-account--authenticated .nav-account-separator {
+  display: none;
+}
+
+/* call-to-action buttons */
+header nav .nav-cta .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sirchie-space-lg);
+}
+
+header nav .nav-cta p.button-wrapper {
+  margin: 0;
+}
+
+header nav .nav-cta a.button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  height: 4rem;
+  padding: 0 var(--sirchie-space-lg);
+  border: 1px solid var(--sirchie-primary-on);
+  border-radius: var(--sirchie-radius-md);
+  background-color: transparent;
+  color: var(--sirchie-primary-on);
+  font: normal normal 700 1.2rem/1.2 var(--sirchie-font-body);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+header nav .nav-cta a.button.primary {
+  border-color: var(--sirchie-info-hover);
+  background-color: var(--sirchie-info-hover);
+  font: var(--type-button-2-font);
+}
+
+header nav .nav-cta a.button:hover,
+header nav .nav-cta a.button:focus-visible {
+  border-color: var(--sirchie-info);
+  background-color: var(--sirchie-info);
+  color: var(--sirchie-primary-on);
+  text-decoration: none;
+}
+
+@media (min-width: 900px) {
+  header nav .nav-utility {
+    align-self: stretch;
+    border-bottom: 1px solid var(--sirchie-primary-on);
+    margin-inline: calc(-1 * var(--sirchie-space-2xl));
+    padding-inline: var(--sirchie-space-2xl);
+  }
+
+  header nav .nav-utility .default-content-wrapper {
+    flex-wrap: nowrap;
+    height: 100%;
+    white-space: nowrap;
+  }
+
+  header nav .nav-brand img {
+    width: 17.9rem;
+    height: 4.6rem;
+  }
+
+  header nav .nav-cta {
+    place-self: center;
+  }
+
+  header nav .nav-tools {
+    justify-self: end;
+  }
+
+  header nav .nav-tools .search-wrapper {
+    order: -1;
+  }
+
+  /* the search trigger reads as the Figma input; the drop-in input opens beneath it */
+  header nav .nav-tools button.nav-search-button {
+    box-sizing: border-box;
+    justify-content: space-between;
+    gap: var(--sirchie-space-sm);
+    width: 32rem;
+    height: 4.4rem;
+    padding: var(--sirchie-space-md) var(--sirchie-space-lg);
+    border: 1px solid var(--sirchie-text-secondary);
+    border-radius: var(--sirchie-radius-md);
+    background-color: var(--sirchie-surface);
+    color: var(--sirchie-text-disabled);
+    font: normal normal 400 1.4rem/1.8rem var(--sirchie-font-body);
+    text-align: start;
+  }
+
+  header nav .nav-tools button.nav-search-button::after {
+    width: 1.6rem;
+    height: 1.6rem;
+  }
+
+  header nav .nav-tools button.nav-cart-button {
+    width: 4.8rem;
+    height: 4.8rem;
+    padding: var(--sirchie-space-md);
+  }
+
+  /* category row */
+  header nav[aria-expanded='true'] .nav-sections {
+    align-self: stretch;
+    border-top: 1px solid var(--sirchie-primary-on);
+    margin-inline: calc(-1 * var(--sirchie-space-2xl));
+    padding-inline: var(--sirchie-space-2xl);
+  }
+
+  header nav .nav-sections .default-content-wrapper,
+  header nav .nav-sections .default-content-wrapper > ul {
+    height: 100%;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul {
+    align-items: center;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li {
+    display: flex;
+    align-items: center;
+    gap: var(--sirchie-space-xs);
+    font: var(--type-body-1-default-font);
+  }
+
+  header nav .nav-sections .nav-drop::after {
+    content: '';
+    flex: none;
+    width: 2.4rem;
+    height: 2.4rem;
+    background-color: currentcolor;
+    mask: url('../../icons/sirchie/chevron-down.svg') center / contain no-repeat;
+  }
+
+  /* mega menu links */
+  header nav .nav-sections .submenu-wrapper li a {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-inline: var(--sirchie-space-md);
+    border-radius: var(--sirchie-radius-md);
+    color: var(--sirchie-primary);
+    font: var(--type-body-1-default-font);
+    white-space: normal;
+  }
+
+  header nav .nav-sections .submenu-wrapper li a:hover {
+    background-color: var(--sirchie-primary-bg);
+    color: var(--sirchie-primary);
+    text-decoration: none;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

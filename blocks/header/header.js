@@ -183,7 +183,7 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
-  const classes = ['brand', 'sections', 'tools'];
+  const classes = ['brand', 'sections', 'tools', 'utility', 'cta'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
     if (section) section.classList.add(`nav-${c}`);
@@ -194,6 +194,13 @@ export default async function decorate(block) {
   if (brandLink) {
     brandLink.className = '';
     brandLink.closest('.button-container').className = '';
+  }
+
+  // The logo is brand identity, not editorial content: ship it with the code so it
+  // renders with explicit dimensions (no layout shift) unless an image is authored.
+  const brandAnchor = navBrand.querySelector('a');
+  if (brandAnchor && !brandAnchor.querySelector('img, picture')) {
+    brandAnchor.innerHTML = `<img src="${window.hlx.codeBasePath}/icons/sirchie/logo-sirchie.svg" alt="Sirchie" width="179" height="46">`;
   }
 
   const navSections = nav.querySelector('.nav-sections');
@@ -404,6 +411,7 @@ export default async function decorate(block) {
 
   const searchPanel = navTools.querySelector('.nav-search-panel');
   const searchButton = navTools.querySelector('.nav-search-button');
+  searchButton.textContent = labels.Global?.Search || 'Search';
   const searchForm = searchPanel.querySelector('#search-bar-form');
   const searchResult = searchPanel.querySelector('.search-bar-result');
 
@@ -588,5 +596,40 @@ export default async function decorate(block) {
     navSections,
     () => !isDesktop.matches && toggleMenu(nav, navSections, false),
   );
-  renderAuthDropdown(navTools);
+  // Utility bar: authored links and contact text sit left; sign-in plus any paragraph
+  // holding a single link (e.g. "Request an Account") sit right. Without an authored
+  // utility section, sign-in falls back to the tools area as in the boilerplate.
+  const navUtility = nav.querySelector('.nav-utility');
+  if (navUtility) {
+    const utilityContent = navUtility.querySelector('.default-content-wrapper') || navUtility;
+    const accountLinks = [...utilityContent.querySelectorAll(':scope > p')]
+      .filter((p) => {
+        const links = p.querySelectorAll('a');
+        return links.length === 1 && p.textContent.trim() === links[0].textContent.trim();
+      })
+      .map((p) => {
+        const link = p.querySelector('a');
+        link.className = '';
+        p.remove();
+        return link;
+      });
+
+    const navAccount = document.createElement('div');
+    navAccount.className = 'nav-account';
+    utilityContent.append(navAccount);
+    renderAuthDropdown(navAccount, { label: 'Sign In' });
+
+    if (accountLinks.length) {
+      const separator = document.createElement('span');
+      separator.className = 'nav-account-separator';
+      separator.textContent = 'or';
+      navAccount.append(separator, ...accountLinks);
+    }
+
+    events.on('authenticated', (isAuthenticated) => {
+      navAccount.classList.toggle('nav-account--authenticated', Boolean(isAuthenticated));
+    }, { eager: true });
+  } else {
+    renderAuthDropdown(navTools);
+  }
 }

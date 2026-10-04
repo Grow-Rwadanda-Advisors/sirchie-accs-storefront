@@ -1,0 +1,283 @@
+/*
+ * Hero Carousel — Figma 200:2108 (desktop card 1284×420).
+ * Mobile follows the 402×714 variant (357:3865) in size and stacking; its inner layout
+ * was not available from Figma, so mobile spacing is interpolated from desktop tokens.
+ */
+
+main > .section.hero-carousel-container > .hero-carousel-wrapper {
+  padding: 0;
+}
+
+.hero-carousel {
+  --hero-carousel-inset: var(--sirchie-space-lg);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sirchie-space-lg);
+}
+
+.hero-carousel .hero-carousel-slides {
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: scroll clip;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.hero-carousel .hero-carousel-slides::-webkit-scrollbar {
+  display: none;
+}
+
+.hero-carousel .hero-carousel-slide {
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  flex: 0 0 100%;
+  grid-template-areas: 'content' 'image';
+  overflow: hidden;
+  border: 2px solid var(--sirchie-info-hover);
+  border-radius: var(--sirchie-radius-lg);
+  background-color: var(--sirchie-surface);
+  scroll-snap-align: start;
+}
+
+/* shield watermark, Figma "SHIELD 1": 585×589 at 6% */
+.hero-carousel .hero-carousel-slide::before {
+  content: '';
+  position: absolute;
+  top: -8.7rem;
+  left: 53.8rem;
+  width: 58.5rem;
+  height: 58.9rem;
+  background-color: var(--sirchie-primary);
+  opacity: 0.06;
+  mask: url('../../icons/sirchie/shield.svg') center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+.hero-carousel .hero-carousel-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  grid-area: content;
+  align-items: flex-start;
+  gap: var(--sirchie-space-xl);
+  padding: var(--sirchie-space-xl) 0;
+}
+
+.hero-carousel .hero-carousel-content p {
+  margin: 0;
+}
+
+.hero-carousel .hero-carousel-head,
+.hero-carousel .hero-carousel-content > p:not(.button-wrapper) {
+  padding-inline: var(--hero-carousel-inset);
+}
+
+.hero-carousel .hero-carousel-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sirchie-space-md);
+}
+
+.hero-carousel .hero-carousel-badge {
+  flex: none;
+  width: 9rem;
+  height: 9rem;
+}
+
+.hero-carousel .hero-carousel-badge picture,
+.hero-carousel .hero-carousel-badge img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-carousel .hero-carousel-titles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sirchie-space-md);
+  min-width: 0;
+}
+
+.hero-carousel .hero-carousel-eyebrow {
+  color: var(--sirchie-primary-deep);
+  font: normal normal 700 1.4rem/2rem var(--sirchie-font-heading);
+}
+
+.hero-carousel .hero-carousel-titles :is(h1, h2, h3, h4, h5, h6) {
+  max-width: 54.3rem;
+  margin: 0;
+  color: var(--sirchie-info-hover);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+}
+
+.hero-carousel .hero-carousel-content > p:not(.button-wrapper) {
+  max-width: 64.9rem;
+  color: var(--sirchie-black);
+  font: normal normal 400 1.6rem/2.4rem var(--sirchie-font-body);
+}
+
+.hero-carousel .hero-carousel-image {
+  position: relative;
+  grid-area: image;
+  min-height: 26rem;
+  mix-blend-mode: darken;
+}
+
+.hero-carousel .hero-carousel-image picture {
+  position: absolute;
+  inset: 0;
+}
+
+.hero-carousel .hero-carousel-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* slide dots: Figma 12px, 8px apart; navy when active */
+.hero-carousel .hero-carousel-dots {
+  display: flex;
+  gap: var(--sirchie-space-sm);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-carousel .hero-carousel-dot {
+  display: block;
+  width: 1.2rem;
+  height: 1.2rem;
+  padding: 0;
+  border: 0;
+  border-radius: var(--sirchie-radius-full);
+  background-color: var(--sirchie-info-border);
+  cursor: pointer;
+}
+
+.hero-carousel .hero-carousel-dot[aria-current='true'] {
+  background-color: var(--sirchie-primary);
+}
+
+.hero-carousel .hero-carousel-dot:focus-visible {
+  outline: 2px solid var(--sirchie-info);
+  outline-offset: 2px;
+}
+
+@media (min-width: 900px) {
+  main > .section.hero-carousel-container:first-of-type {
+    margin-top: 8.6rem;
+  }
+
+  main > .section.hero-carousel-container > .hero-carousel-wrapper {
+    padding: 0 var(--spacing-big);
+  }
+
+  .hero-carousel .hero-carousel-slide {
+    grid-template-areas: 'content image';
+    grid-template-columns: minmax(0, 1fr) minmax(0, 55.9rem);
+    column-gap: var(--sirchie-space-md);
+    min-height: 42rem;
+  }
+
+  .hero-carousel {
+    --hero-carousel-inset: 6rem;
+  }
+
+  .hero-carousel .hero-carousel-content {
+    align-self: center;
+  }
+
+  .hero-carousel .hero-carousel-head,
+  .hero-carousel .hero-carousel-content > p:not(.button-wrapper) {
+    padding-inline: var(--hero-carousel-inset) 0;
+  }
+
+  /* Figma's curved left photo edge, drawn in code so authors upload plain rectangles */
+  .hero-carousel .hero-carousel-image {
+    min-height: 0;
+    clip-path: circle(42rem at 43.1rem 50%);
+  }
+
+  .hero-carousel .hero-carousel-titles :is(h1, h2, h3, h4, h5, h6) {
+    font: normal normal 700 4rem/4.4rem var(--sirchie-font-heading);
+  }
+
+  .hero-carousel .hero-carousel-content > p:not(.button-wrapper) {
+    font: normal normal 400 2rem/3.4rem var(--sirchie-font-body);
+  }
+}
+
+/*
+ * Dark variant — Figma "Resource Center CTA" (467:1719): the same hero content and chevron
+ * button on a navy card, with a yellow 73px CTA and a contained image.
+ */
+.hero-carousel.dark .hero-carousel-slide {
+  border: 0;
+  background-color: var(--sirchie-primary);
+}
+
+.hero-carousel.dark .hero-carousel-slide::before {
+  top: -8.5rem;
+  left: 48.6rem;
+  background-color: var(--sirchie-primary-on);
+  opacity: 0.04;
+}
+
+.hero-carousel.dark .hero-carousel-eyebrow {
+  color: var(--sirchie-info-border);
+}
+
+.hero-carousel.dark .hero-carousel-titles :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--sirchie-primary-on);
+  text-transform: uppercase;
+}
+
+.hero-carousel.dark .hero-carousel-content > p:not(.button-wrapper) {
+  color: var(--sirchie-primary-on);
+}
+
+.hero-carousel.dark .hero-carousel-image {
+  mix-blend-mode: normal;
+  clip-path: none;
+}
+
+.hero-carousel.dark .hero-carousel-image img {
+  object-fit: contain;
+}
+
+main .hero-carousel.dark a.button.button-chevron:any-link {
+  --button-chevron-color: var(--sirchie-accent);
+
+  height: 7.3rem;
+  color: var(--sirchie-black);
+}
+
+main .hero-carousel.dark a.button.button-chevron:hover,
+main .hero-carousel.dark a.button.button-chevron:focus-visible {
+  --button-chevron-color: var(--color-warning-800);
+
+  color: var(--sirchie-black);
+}
+
+@media (min-width: 900px) {
+  .hero-carousel.dark .hero-carousel-slide {
+    grid-template-columns: 48.4rem minmax(0, 1fr);
+    column-gap: 0;
+    min-height: 48rem;
+    padding-inline-end: var(--sirchie-space-xl);
+  }
+
+  .hero-carousel.dark .hero-carousel-content {
+    gap: var(--sirchie-space-2xl);
+  }
+}
