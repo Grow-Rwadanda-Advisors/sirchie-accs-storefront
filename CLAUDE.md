@@ -65,7 +65,8 @@ by position:
    overrides it.
 2. **sections** — the category list. A top-level item with a nested list becomes a
    mega menu (three columns); without one it is a plain link.
-3. **tools** — leave empty. Search, cart and sign-in are injected by code.
+3. **tools** — leave empty. Search, cart and sign-in are injected by code. da.live drops
+   empty sections, so a four-section nav is read as brand, sections, utility, cta.
 4. **utility** — top bar. A list of links, then paragraphs. A paragraph holding only a
    single link (e.g. "Request an Account") moves right, beside Sign In, and hides once
    the customer is signed in. Other paragraphs (the contact line) stay left.

@@ -183,6 +183,14 @@ export default async function decorate(block) {
   nav.id = 'nav';
   while (fragment.firstElementChild) nav.append(fragment.firstElementChild);
 
+  // da.live drops empty sections, so a nav authored without the (always empty)
+  // tools section arrives as brand, sections, utility, cta: restore the gap.
+  if (nav.children.length === 4) {
+    const tools = document.createElement('div');
+    tools.className = 'section';
+    nav.children[1].after(tools);
+  }
+
   const classes = ['brand', 'sections', 'tools', 'utility', 'cta'];
   classes.forEach((c, i) => {
     const section = nav.children[i];
