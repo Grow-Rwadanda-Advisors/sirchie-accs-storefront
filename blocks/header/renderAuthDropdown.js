@@ -33,7 +33,13 @@ function renderSignIn(element) {
   })(element);
 }
 
-export function renderAuthDropdown(navTools) {
+/**
+ * Renders the sign-in dropdown.
+ * @param {Element} navTools Container the dropdown is appended to
+ * @param {Object} [options]
+ * @param {string} [options.label] Text shown instead of the account icon when signed out
+ */
+export function renderAuthDropdown(navTools, { label } = {}) {
   const dropdownElement = document.createRange().createContextualFragment(`
  <div class="dropdown-wrapper nav-tools-wrapper">
     <button type="button" class="nav-dropdown-button" aria-haspopup="dialog" aria-expanded="false" aria-controls="login-modal"></button>
@@ -104,6 +110,10 @@ export function renderAuthDropdown(navTools) {
     } else {
       authDropDownMenuList.style.display = 'none';
       authDropinContainer.style.display = 'block';
+      if (label) {
+        loginButton.textContent = label;
+        return;
+      }
       loginButton.innerHTML = `
       <svg
           width="25"

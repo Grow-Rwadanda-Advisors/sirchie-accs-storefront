@@ -15,3 +15,11 @@ scripts/__dropins__/**/*.map
 # Ensure these files are tracked
 !CLAUDE.md
 !AGENTS.md
+
+# Local mock of the da.live /nav document, for header development only.
+# Must never ship: a committed nav.plain.html would shadow the authored nav.
+/nav.plain.html
+
+# Local draft pages served with `aem up --html-folder drafts`. Never ship.
+/drafts/
+/footer.plain.html

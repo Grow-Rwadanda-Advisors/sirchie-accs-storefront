@@ -1,0 +1,231 @@
+/*
+ * Promo Card — Figma "Promotions Grid" (159:790): four cards in two rows of 550 + 702px,
+ * 32px apart. Mobile stacks the cards (367:1498); card inner layout on mobile is not in
+ * the retrieved design, so it follows the desktop reading order.
+ * A section styled "promotions" lays its promo cards out as that grid.
+ */
+
+.promo-card {
+  --promo-card-inset: var(--sirchie-space-xl);
+
+  position: relative;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-areas: 'title' 'body' 'image' 'cta';
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  gap: var(--sirchie-space-xl) var(--sirchie-space-md);
+  overflow: hidden;
+  padding-block: var(--sirchie-space-xl);
+  border: 2px solid var(--sirchie-primary-deep);
+  border-radius: var(--sirchie-radius-lg);
+  background-color: var(--sirchie-surface);
+  color: var(--sirchie-primary);
+}
+
+/* Figma "Rectangle 7" swoosh */
+.promo-card::before {
+  content: '';
+  position: absolute;
+  right: -58rem;
+  bottom: -5.6rem;
+  width: 77.3rem;
+  height: 41.2rem;
+  background-color: var(--sirchie-info-hover);
+  mask: url('../../icons/sirchie/promo-swoosh.svg') center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+.promo-card .promo-card-content {
+  display: contents;
+}
+
+.promo-card .promo-card-title,
+.promo-card .promo-card-body,
+.promo-card .promo-card-image,
+.promo-card .promo-card-cta {
+  position: relative;
+}
+
+.promo-card .promo-card-title {
+  grid-area: title;
+  padding-inline: var(--promo-card-inset);
+}
+
+.promo-card div.promo-card-title {
+  display: flex;
+  align-items: center;
+  gap: var(--sirchie-space-md);
+}
+
+.promo-card .promo-card-badge {
+  flex: none;
+  width: 9rem;
+  height: 9rem;
+  margin: 0;
+}
+
+.promo-card .promo-card-badge img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.promo-card .promo-card-heading {
+  margin: 0;
+  color: var(--sirchie-info-hover);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+}
+
+.promo-card .promo-card-body {
+  display: flex;
+  flex-direction: column;
+  grid-area: body;
+  gap: var(--sirchie-space-md);
+  padding-inline: var(--promo-card-inset);
+}
+
+.promo-card .promo-card-body :is(h2, h3, h4, h5, h6) {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.4rem var(--sirchie-font-heading);
+}
+
+.promo-card .promo-card-body p {
+  margin: 0;
+  font: normal normal 400 2rem/3.4rem var(--sirchie-font-body);
+}
+
+.promo-card .promo-card-body hr {
+  width: 100%;
+  margin: var(--sirchie-space-md) 0;
+  border: 0;
+  border-top: 1px solid var(--sirchie-primary);
+}
+
+.promo-card .promo-card-body img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.promo-card .promo-card-image {
+  grid-area: image;
+  place-self: center;
+  padding-inline: var(--promo-card-inset);
+}
+
+.promo-card .promo-card-image img {
+  display: block;
+  max-width: 21.5rem;
+  max-height: 21.4rem;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.promo-card .promo-card-cta {
+  grid-area: cta;
+  margin: 0;
+}
+
+/*
+ * spotlight: centred two-tone heading over text beside an image, e.g. PRODUCT OF THE MONTH.
+ * The image stays beside the text on mobile too: Figma's mobile card heights (568, 432)
+ * only fit that arrangement.
+ */
+.promo-card.spotlight {
+  --promo-card-inset: var(--sirchie-space-lg);
+
+  grid-template-areas: 'title title' 'body image' 'cta cta';
+  grid-template-columns: minmax(0, 1fr) auto;
+  row-gap: var(--sirchie-space-lg);
+}
+
+.promo-card.spotlight .promo-card-image {
+  padding-inline: 0 var(--promo-card-inset);
+}
+
+.promo-card.spotlight .promo-card-image img {
+  max-width: 12rem;
+}
+
+/* Figma puts the CTA 8px below the text in spotlight cards */
+.promo-card.spotlight .promo-card-cta {
+  margin-top: calc(-1 * var(--sirchie-space-sm));
+}
+
+.promo-card.spotlight .promo-card-heading {
+  font-weight: 400;
+  text-align: center;
+}
+
+.promo-card.spotlight .promo-card-heading strong {
+  font-weight: 700;
+}
+
+.promo-card.spotlight .promo-card-body p {
+  font: normal normal 400 1.6rem/2.4rem var(--sirchie-font-body);
+}
+
+.promo-card.spotlight .promo-card-body p:has(> strong:first-child) {
+  font: normal normal 400 2rem/3.4rem var(--sirchie-font-body);
+}
+
+@media (min-width: 1200px) {
+  main > .section.promotions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sirchie-space-2xl);
+    box-sizing: border-box;
+    max-width: calc(var(--sirchie-content-width) + 2 * var(--spacing-big));
+    margin-inline: auto;
+    padding-inline: var(--spacing-big);
+  }
+
+  main > .section.promotions > div {
+    flex: 1 1 calc((100% - var(--sirchie-space-2xl)) * 0.56);
+    min-width: 0;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  main > .section.promotions > div:nth-child(4n + 1),
+  main > .section.promotions > div:nth-child(4n + 4) {
+    flex: 0 0 calc((100% - var(--sirchie-space-2xl)) * 0.4393);
+  }
+
+  /* fill the stretched flex row so cards in a row share a height */
+  .promo-card {
+    grid-template-areas: 'title image' 'body image' 'cta image';
+    grid-template-columns: minmax(0, 1fr) auto;
+    height: 100%;
+    min-height: 37.6rem;
+  }
+
+  .promo-card::before {
+    top: -0.4rem;
+    right: -46.6rem;
+    bottom: auto;
+  }
+
+  /* Figma sets card headings on one line (whitespace-nowrap) */
+  .promo-card .promo-card-heading {
+    font: normal normal 700 4rem/4.4rem var(--sirchie-font-heading);
+    white-space: nowrap;
+  }
+
+  .promo-card.spotlight .promo-card-heading {
+    font: normal normal 400 3.2rem/3.4rem var(--sirchie-font-heading);
+  }
+
+  .promo-card:not(.spotlight) .promo-card-image {
+    padding-inline: 0 var(--promo-card-inset);
+  }
+
+  .promo-card.spotlight .promo-card-image img {
+    max-width: 19.8rem;
+  }
+}

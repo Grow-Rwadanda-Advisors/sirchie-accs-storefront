@@ -199,7 +199,7 @@ export default async function decorate(block) {
 
     // Gallery (Desktop)
     pdpRendered.render(ProductGallery, {
-      controls: 'thumbnailsColumn',
+      controls: 'thumbnailsRow',
       arrows: true,
       peak: true,
       gap: 'small',
@@ -412,6 +412,8 @@ export default async function decorate(block) {
     { eager: true },
   );
 
+  decorateSirchieLayout(block, product);
+
   // Set JSON-LD and Meta Tags
   events.on('aem/lcp', () => {
     const isPrerendered = isProductPrerendered();
@@ -556,6 +558,72 @@ function setMetaTags(product) {
   createMetaTag('og:image:secure_url', metaImage, 'property');
   createMetaTag('product:price:amount', price.value, 'property');
   createMetaTag('product:price:currency', price.currency, 'property');
+}
+
+/**
+ * Sirchie product page layout — Figma 261:1219.
+ * Moves the SKU onto the price row, labels the wishlist button and adds the email action,
+ * none of which the drop-in containers provide on their own.
+ * @param {Element} block The product details block
+ * @param {Object} product The product data
+ */
+function decorateSirchieLayout(block, product) {
+  // Figma turns the description and attributes into accordions, the description full width
+  const accordion = (container, title) => {
+    if (!container || container.dataset.sirchieAccordion) return;
+    const details = document.createElement('details');
+    details.className = 'product-details__accordion';
+    details.open = true;
+    const summary = document.createElement('summary');
+    summary.className = 'product-details__accordion-summary';
+    summary.textContent = title;
+    const body = document.createElement('div');
+    body.className = 'product-details__accordion-body';
+    while (container.firstChild) body.append(container.firstChild);
+    details.append(summary, body);
+    container.append(details);
+    container.dataset.sirchieAccordion = 'true';
+  };
+
+  const attributes = block.querySelector('.product-details__attributes');
+  const description = block.querySelector('.product-details__description');
+  accordion(attributes, 'Additional information');
+  accordion(description, 'Description');
+
+  // the description runs the full width of the page in Figma, below both columns
+  const wrapper = block.querySelector('.product-details__wrapper');
+  if (wrapper && description) wrapper.append(description);
+
+  const sku = block.querySelector('.pdp-header__sku');
+  const price = block.querySelector('.product-details__price');
+  if (sku && price) {
+    sku.classList.add('product-details__sku');
+    price.append(sku);
+  }
+
+  const buttons = block.querySelector('.product-details__buttons');
+  const wishlist = block.querySelector('.product-details__buttons__add-to-wishlist');
+  if (!buttons || !wishlist) return;
+
+  const actions = document.createElement('div');
+  actions.className = 'product-details__actions';
+  actions.append(wishlist);
+
+  const wishlistButton = wishlist.querySelector('button');
+  if (wishlistButton && !wishlistButton.querySelector('.product-details__action-label')) {
+    const label = document.createElement('span');
+    label.className = 'product-details__action-label';
+    label.textContent = 'Add to wish list';
+    wishlistButton.append(label);
+  }
+
+  const email = document.createElement('a');
+  email.className = 'product-details__action product-details__action--email';
+  email.href = `mailto:?subject=${encodeURIComponent(product?.name || 'Sirchie product')}&body=${encodeURIComponent(window.location.href)}`;
+  email.innerHTML = '<span class="product-details__action-label">Email</span>';
+  actions.append(email);
+
+  buttons.append(actions);
 }
 
 /**

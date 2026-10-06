@@ -24,6 +24,48 @@ function toggleStoreDropdown(sections, expanded = false) {
 }
 
 /**
+ * Sirchie footer — Figma 159:826. The first footer section is split into columns at each
+ * heading: content before the first heading is the brand column (logo link, contact line)
+ * and a column holding a button is the sign-up column. The second section is the legal row:
+ * the copyright paragraph, then a list of links.
+ * @param {Element} footer The container holding the loaded footer sections
+ */
+function decorateSirchieFooter(footer) {
+  const [main, legal] = footer.querySelectorAll(':scope > .section');
+  const content = main?.querySelector('.default-content-wrapper');
+
+  if (content) {
+    const columns = document.createElement('div');
+    columns.className = 'footer-columns';
+    let column;
+    const startColumn = () => {
+      column = document.createElement('div');
+      column.className = 'footer-column';
+      columns.append(column);
+    };
+
+    startColumn();
+    [...content.children].forEach((child) => {
+      if (/^H[1-6]$/.test(child.tagName) && column.childElementCount) startColumn();
+      column.append(child);
+    });
+    columns.firstElementChild.classList.add('footer-brand');
+    columns.querySelectorAll('.footer-column').forEach((col) => {
+      if (col.querySelector('.button')) col.classList.add('footer-signup');
+    });
+    content.replaceWith(columns);
+
+    // the logo ships with the code, as in the header, unless an image is authored
+    const brandLink = columns.querySelector('.footer-brand > p:first-child > a');
+    if (brandLink && !brandLink.querySelector('img, picture')) {
+      brandLink.innerHTML = `<img src="${window.hlx.codeBasePath}/icons/sirchie/logo-sirchie.svg" alt="Sirchie" width="179" height="46" loading="lazy">`;
+    }
+  }
+
+  legal?.classList.add('footer-legal');
+}
+
+/**
  * loads and decorates the footer
  * @param {Element} block The footer block element
  */
@@ -167,6 +209,7 @@ export default async function decorate(block) {
     }
   }
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
+  decorateSirchieFooter(footer);
 
   block.append(footer);
 }

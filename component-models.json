@@ -427,6 +427,66 @@
     ]
   },
   {
+    "id": "hero-carousel",
+    "fields": [
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "classes",
+        "label": "Style",
+        "value": "",
+        "options": [
+          {
+            "name": "Default (light card)",
+            "value": ""
+          },
+          {
+            "name": "Dark (navy card, e.g. Resource Center)",
+            "value": "dark"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hero-carousel-slide",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image (desktop)",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image alt text"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "mobileImage",
+        "label": "Image (mobile, optional)",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "mobileImageAlt",
+        "label": "Mobile image alt text"
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "content",
+        "value": "",
+        "label": "Content (badge image, eyebrow, heading, text, bold link)"
+      }
+    ]
+  },
+  {
     "id": "hero",
     "fields": [
       {
@@ -498,6 +558,48 @@
     ]
   },
   {
+    "id": "promo-card",
+    "fields": [
+      {
+        "component": "select",
+        "valueType": "string",
+        "name": "classes",
+        "label": "Style",
+        "value": "",
+        "options": [
+          {
+            "name": "Default (heading left)",
+            "value": ""
+          },
+          {
+            "name": "Spotlight (centred two-tone heading)",
+            "value": "spotlight"
+          }
+        ]
+      },
+      {
+        "component": "richtext",
+        "valueType": "string",
+        "name": "content",
+        "value": "",
+        "label": "Content (optional badge image, heading, text, bold link)"
+      },
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Image alt text"
+      }
+    ]
+  },
+  {
     "id": "targeted-block",
     "fields": [
       {
@@ -528,6 +630,41 @@
         "name": "fragment",
         "label": "Fragment",
         "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "trust-strip",
+    "fields": []
+  },
+  {
+    "id": "trust-strip-heading",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "value": "",
+        "label": "Heading line (first row)"
+      }
+    ]
+  },
+  {
+    "id": "trust-strip-stat",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "value",
+        "value": "",
+        "label": "Value (e.g. 3,000+)"
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "label",
+        "value": "",
+        "label": "Label (e.g. SKUs in Catalog)"
       }
     ]
   }

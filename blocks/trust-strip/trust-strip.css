@@ -1,0 +1,97 @@
+/*
+ * Trust Strip — Figma 136:489 (desktop 1284×232), mobile 367:1473 (402×600).
+ */
+
+main > .section.trust-strip-container > .trust-strip-wrapper {
+  padding: 0;
+}
+
+.trust-strip {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sirchie-space-3xl);
+  overflow: hidden;
+  padding: var(--sirchie-space-3xl) 8rem;
+  border-radius: var(--sirchie-radius-lg);
+  background-color: var(--sirchie-primary);
+  color: var(--sirchie-primary-on);
+  text-align: center;
+}
+
+/* shield watermark at 4% */
+.trust-strip::before {
+  content: '';
+  position: absolute;
+  top: -20.7rem;
+  left: -23.6rem;
+  width: 74.2rem;
+  height: 74.6rem;
+  background-color: var(--sirchie-primary-on);
+  opacity: 0.04;
+  mask: url('../../icons/sirchie/shield.svg') center / 100% 100% no-repeat;
+  pointer-events: none;
+}
+
+.trust-strip .trust-strip-heading,
+.trust-strip .trust-strip-stats {
+  position: relative;
+}
+
+.trust-strip .trust-strip-heading {
+  margin: 0;
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+}
+
+.trust-strip .trust-strip-stats {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sirchie-space-3xl);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trust-strip .trust-strip-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sirchie-space-xs);
+}
+
+.trust-strip .trust-strip-value {
+  color: var(--sirchie-accent);
+  font: normal normal 700 6rem/6rem var(--sirchie-font-heading);
+  white-space: nowrap;
+}
+
+.trust-strip .trust-strip-label {
+  font: normal normal 400 2rem/3.4rem var(--sirchie-font-body);
+}
+
+@media (min-width: 900px) {
+  main > .section.trust-strip-container > .trust-strip-wrapper {
+    padding: 0 var(--spacing-big);
+  }
+
+  .trust-strip {
+    padding: var(--sirchie-space-2xl) 8rem;
+  }
+
+  .trust-strip::before {
+    top: -50.6rem;
+    left: calc(50% + 4rem);
+    width: 133.6rem;
+    height: 134.4rem;
+    transform: translateX(-50%);
+  }
+
+  .trust-strip .trust-strip-stats {
+    flex-direction: row;
+    gap: var(--sirchie-space-xl);
+  }
+
+  .trust-strip .trust-strip-stat {
+    flex: 1 1 0;
+  }
+}

@@ -1,0 +1,96 @@
+{
+  "definitions": [
+    {
+      "title": "Hero Carousel",
+      "id": "hero-carousel",
+      "model": "hero-carousel",
+      "filter": "hero-carousel",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 2
+        }
+      }
+    },
+    {
+      "title": "Hero Carousel Slide",
+      "id": "hero-carousel-slide",
+      "model": "hero-carousel-slide",
+      "plugins": {
+        "da": {
+          "rows": 1,
+          "columns": 2,
+          "fields": [
+            { "name": "image", "selector": "div:nth-child(1)>p:nth-child(1)>picture>img[src]" },
+            { "name": "imageAlt", "selector": "div:nth-child(1)>p:nth-child(1)>picture>img[alt]" },
+            { "name": "mobileImage", "selector": "div:nth-child(1)>p:nth-child(2)>picture>img[src]" },
+            { "name": "mobileImageAlt", "selector": "div:nth-child(1)>p:nth-child(2)>picture>img[alt]" },
+            { "name": "content", "selector": "div:nth-child(2)" }
+          ]
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "hero-carousel",
+      "fields": [
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "classes",
+          "label": "Style",
+          "value": "",
+          "options": [
+            { "name": "Default (light card)", "value": "" },
+            { "name": "Dark (navy card, e.g. Resource Center)", "value": "dark" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "hero-carousel-slide",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Image (desktop)",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Image alt text"
+        },
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "mobileImage",
+          "label": "Image (mobile, optional)",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "mobileImageAlt",
+          "label": "Mobile image alt text"
+        },
+        {
+          "component": "richtext",
+          "valueType": "string",
+          "name": "content",
+          "value": "",
+          "label": "Content (badge image, eyebrow, heading, text, bold link)"
+        }
+      ]
+    }
+  ],
+  "filters": [
+    {
+      "id": "hero-carousel",
+      "components": ["hero-carousel-slide"]
+    }
+  ]
+}
