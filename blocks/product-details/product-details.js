@@ -35,6 +35,7 @@ import {
 
 // Initializers
 import { IMAGES_SIZES } from '../../scripts/initializers/pdp.js';
+import buildBreadcrumb from '../../scripts/breadcrumb.js';
 import '../../scripts/initializers/cart.js';
 import '../../scripts/initializers/wishlist.js';
 
@@ -641,7 +642,7 @@ function decorateSirchieLayout(block, product) {
  * @param {Object} product The product data
  */
 async function renderBreadcrumb(block, product) {
-  if (!product?.sku || block.querySelector('.product-details__breadcrumb')) return;
+  if (!product?.sku) return;
   let buckets = [];
   try {
     const { data } = await pdpApi.fetchGraphQl(
@@ -664,26 +665,7 @@ async function renderBreadcrumb(block, product) {
   const trail = buckets
     .filter((b) => deepest.path === b.path || deepest.path.startsWith(`${b.path}/`))
     .sort((a, b) => a.path.split('/').length - b.path.split('/').length);
-
-  const nav = document.createElement('nav');
-  nav.className = 'product-details__breadcrumb';
-  nav.setAttribute('aria-label', 'Breadcrumb');
-  const list = document.createElement('ol');
-  const home = document.createElement('li');
-  home.innerHTML = `<a href="${rootLink('/')}">Home</a>`;
-  list.append(home);
-  trail.forEach((c, i) => {
-    const item = document.createElement('li');
-    if (i === trail.length - 1) {
-      item.textContent = c.name;
-      item.setAttribute('aria-current', 'page');
-    } else {
-      item.innerHTML = `<a href="${rootLink(`/${c.path}`)}">${c.name}</a>`;
-    }
-    list.append(item);
-  });
-  nav.append(list);
-  block.prepend(nav);
+  buildBreadcrumb(block, trail);
 }
 
 /**

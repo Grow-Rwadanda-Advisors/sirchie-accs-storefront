@@ -5,7 +5,7 @@ import SortBy from '@dropins/storefront-product-discovery/containers/SortBy.js';
 import Pagination from '@dropins/storefront-product-discovery/containers/Pagination.js';
 import { render as provider } from '@dropins/storefront-product-discovery/render.js';
 import { Button, Icon, provider as UI } from '@dropins/tools/components.js';
-import { search } from '@dropins/storefront-product-discovery/api.js';
+import { search, fetchGraphQl } from '@dropins/storefront-product-discovery/api.js';
 // Wishlist Dropin
 import { WishlistToggle } from '@dropins/storefront-wishlist/containers/WishlistToggle.js';
 import { render as wishlistRender } from '@dropins/storefront-wishlist/render.js';
@@ -18,10 +18,31 @@ import { events } from '@dropins/tools/event-bus.js';
 import { readBlockConfig } from '../../scripts/aem.js';
 import { fetchPlaceholders, getProductLink } from '../../scripts/commerce.js';
 import { getSearchStateFromUrl, applySearchStateToUrl } from './search-url.js';
+import buildBreadcrumb from '../../scripts/breadcrumb.js';
 
 // Initializers
 import '../../scripts/initializers/search.js';
 import '../../scripts/initializers/wishlist.js';
+
+/**
+ * Home > parent > category bar for a category page, from the category tree.
+ * @param {Element} block The product list block
+ * @param {string} urlPath The category url path, e.g. electronics/laptops
+ */
+async function renderBreadcrumb(block, urlPath) {
+  let categories = [];
+  try {
+    const { data } = await fetchGraphQl('{ categories { name urlPath } }');
+    categories = data?.categories ?? [];
+  } catch (e) {
+    return;
+  }
+  const trail = categories
+    .filter((c) => c.urlPath && (urlPath === c.urlPath || urlPath.startsWith(`${c.urlPath}/`)))
+    .map((c) => ({ name: c.name, path: c.urlPath }))
+    .sort((a, b) => a.path.split('/').length - b.path.split('/').length);
+  buildBreadcrumb(block, trail);
+}
 
 export default async function decorate(block) {
   const labels = await fetchPlaceholders();
@@ -54,6 +75,7 @@ export default async function decorate(block) {
   // executed after the plp block and block config is not available
   if (config.urlpath) {
     block.dataset.urlpath = config.urlpath;
+    renderBreadcrumb(block, config.urlpath);
   }
 
   const searchState = getSearchStateFromUrl(new URL(window.location.href));
