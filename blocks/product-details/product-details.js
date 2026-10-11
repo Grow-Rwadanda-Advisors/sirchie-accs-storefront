@@ -663,6 +663,9 @@ async function renderBreadcrumb(block, product) {
     .filter((c) => c.level > 1)
     .sort((a, b) => a.level - b.level);
   trail.push(category);
+  // category pages live at the category's url path, e.g. /electronics/laptops
+  const slugs = [];
+  trail.forEach((c) => { slugs.push(c.slug); c.path = `/${slugs.join('/')}`; });
 
   const nav = document.createElement('nav');
   nav.className = 'product-details__breadcrumb';
@@ -677,7 +680,7 @@ async function renderBreadcrumb(block, product) {
       item.textContent = c.name;
       item.setAttribute('aria-current', 'page');
     } else {
-      item.innerHTML = `<a href="${rootLink(`/${c.slug}`)}">${c.name}</a>`;
+      item.innerHTML = `<a href="${rootLink(c.path)}">${c.name}</a>`;
     }
     list.append(item);
   });
