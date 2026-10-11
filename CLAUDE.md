@@ -1,8 +1,10 @@
 # Sirchie storefront — project context
 
-Read `AGENTS.md` first: it carries the Edge Delivery Services / Adobe Commerce
-boilerplate rules (vanilla JS, no build step, block conventions, lint before commit).
-Everything below is Sirchie-specific context layered on top of it.
+@AGENTS.md
+
+`AGENTS.md` carries the Edge Delivery Services / Adobe Commerce boilerplate rules (vanilla
+JS, no build step, block conventions, lint before commit). Everything below is
+Sirchie-specific context layered on top of it. Where the two differ, this file wins.
 
 ## What this project is
 
@@ -11,25 +13,80 @@ on Upsun) to Adobe Commerce as a Cloud Service (ACCS). This repo is the EDS stor
 Custom PHP modules from the old site do NOT carry over — they are rebuilt here as EDS
 blocks, or outside this repo as App Builder apps.
 
-Status (Sept 2026): ACCS Commerce instances are provisioned. This repo still runs against
-the Adobe demo backend (`aemshop.net`) because no `config.json` exists at the root yet —
-`scripts/commerce.js` fetches `/config.json` at runtime, and `aem up` proxies the demo one
-until a local file shadows it. Pointing at Sirchie's ACCS backend is that one file, not a
-code change. See `SIRCHIE-SETUP.md` for provisioning, the console-vs-console map, and the
-ACCS config shape.
+Status (Oct 2026): the site is registered and live-capable.
+
+| | |
+|---|---|
+| Code | `github.com/Grow-Rwadanda-Advisors/sirchie-accs-storefront`, branch `main` |
+| Content | da.live, `/grow-rwadanda-advisors/sirchie-accs-storefront` |
+| Preview | `https://main--sirchie-accs-storefront--grow-rwadanda-advisors.aem.page/` |
+| Live | `https://main--sirchie-accs-storefront--grow-rwadanda-advisors.aem.live/` |
+| Branch preview | `https://<branch>--sirchie-accs-storefront--grow-rwadanda-advisors.aem.page/` |
+| Backend | ACCS sandbox, set in `config.json` (single `commerce-endpoint`, no API key) |
+
+`SIRCHIE-SETUP.md` has the provisioning history and the console-vs-console map.
+`../sirchie-storefront` is the retired first repo (boilerplate v10, never registered);
+do not copy files from it — its work is already merged here.
+
+## Working rules
+
+- **Never push, merge to `main`, or publish da.live content without the user's go-ahead
+  in that moment.** Commit locally, then stop and ask. Branch previews need a push too,
+  so ask before those as well.
+- Commits: user is the sole author; no co-author trailers; one short imperative subject
+  line, no body unless a decision needs recording.
+- Code comments: short, plain, about what the code does. Never narrate how the code was
+  produced, the conversation, or alternatives considered.
+- Chat replies: brief and direct, tables/lists over prose, but keep every point the user
+  needs to act on.
+- Verify before claiming done: `npm run lint`, then render the page (see *Checking a
+  page*). Report what was and was not checked.
+
+## Code vs content — what a push changes
+
+| Change | Lives in | Takes effect |
+|---|---|---|
+| Blocks, `styles/`, `scripts/`, `icons/`, `fonts/`, `head.html`, `404.html`, `config.json`, `placeholders/*.json`, `component-*.json` | git | On push, on that branch's URL; on `main` for preview and live. No da.live action. |
+| Pages: `index`, `nav`, `footer`, every other page, images in `media/` | da.live | Only after **Preview** (→ `.aem.page`) and **Publish** (→ `.aem.live`) of that page |
+| `drafts/`, `nav.plain.html`, `footer.plain.html` | local only (gitignored, hlxignored) | Never |
+
+Consequences:
+- A page document is uploaded or edited in da.live **once**; later design changes are
+  code only. Re-upload a page only when its block layout (rows/columns) must change.
+- Changing a block's layout breaks every page that uses it. Prefer making the code accept
+  both the old and new layouts; otherwise list the pages to re-author.
+- Never commit page content (`*.plain.html`) to the repo — a committed `nav.plain.html`
+  would shadow the authored nav for every visitor.
+- `.aem.page` shows previewed content; `.aem.live` shows published content. Review on
+  `.aem.page`. Cached assets are the usual reason a fresh push "does not show": hard
+  refresh or a private window first.
+- da.live drops empty sections and table cells when it saves a document. Blocks must
+  tolerate that (the header already does for the empty tools section).
 
 ## Local development
 
 ```bash
 npm install
 npm run install:dropins   # required — .npmrc sets ignore-scripts=true, so postinstall never runs
-npx aem up --no-open      # http://localhost:3000
+npx aem up --no-open      # http://localhost:3000, real da.live content + local code
 ```
 
-`aem up` resolves the proxied content site from the git `origin` remote. While `origin`
-still points at `hlxsites/aem-boilerplate-commerce`, local dev proxies the boilerplate
-demo site. Once this code lives in the Sirchie repo with its own content source, it
-proxies Sirchie content instead.
+Default workflow: develop against the real previewed da.live pages. Do not keep local
+copies of pages. For a throwaway experiment, create a page under `/drafts/` in da.live
+and preview it (never publish it); `drafts/` locally plus
+`npx aem up --no-open --html-folder drafts --html-mount /` is the fallback when da.live
+is unavailable. Local `.plain.html` drafts render in quirks mode; keep drafts as full
+documents with a doctype and a copy of `head.html`.
+
+Page content and block markup can be inspected with `curl <url>.plain.html`.
+
+## Checking a page
+
+Headless Chrome is available (`/Applications/Google Chrome.app`, `playwright-core` in the
+scratchpad). Render the preview URL at 375, 768, 1024 and 1440 px wide, capture a full-page
+screenshot, and collect console errors and failed requests before reporting a page as done.
+Any `header.js`/block change can be tested against the real nav by routing that file to the
+local copy in the headless session.
 
 ## Where the design lives
 
@@ -56,6 +113,45 @@ the render before committing them.
 Icons from Figma live in `icons/sirchie/` and are applied as CSS masks so colour
 follows the design, not the export. The design system's icon set is Ionicons.
 
+## Pages and where their design comes from
+
+Site Creator seeded these pages in da.live; each holds one drop-in block. They are styled
+through tokens and block CSS only.
+
+| Page(s) | Block(s) | Design source |
+|---|---|---|
+| `/` | hero-carousel, trust-strip, promo-card, featured-products | Figma — done |
+| `/nav`, `/footer` | header, footer | Figma — done |
+| `/products/<url-key>/<sku>` via `/products/default` | product-details, product-recommendations | Figma `257:781` — styled; routing still 404 (see below) |
+| `/apparel` and other categories, `/search` | product-list-page, product-recommendations | No Figma. Style from tokens; current sirchie.com for structure |
+| `/cart`, mini cart | commerce-cart, commerce-mini-cart | No Figma; tokens + current site |
+| `/checkout`, `/checkout/success` (page missing) | commerce-checkout, commerce-checkout-success | No Figma; tokens |
+| `/customer/login`, `/customer/create`, `/customer/forgotpassword` | commerce-login, commerce-create-account, commerce-forgot-password | No Figma; tokens |
+| `/customer/account`, `/customer/orders`, `/customer/order-details`, `/customer/address` (page missing), `/wishlist` | commerce-account-*, commerce-orders-list, commerce-addresses, commerce-wishlist | No Figma; tokens |
+| `/order-status`, `/order-details`, `/return-details` | commerce-order-status, commerce-order-*, commerce-returns-* | No Figma; tokens |
+
+"Page missing" = the route exists in `scripts/commerce.js` but no da.live page was seeded;
+author it (one block table) before styling. Pages that need a new block (forms, training
+dates, resource center — see *Blocks to build*) need a Figma design first; flag them to
+the design team rather than inventing layouts.
+
+Drop-in text (labels, errors) comes from `placeholders/*.json` in the repo; site-wide
+placeholders such as `Global.Search` come from da.live.
+
+## Product page routing (open)
+
+`getProductLink()` builds `/products/<url-key>/<sku>`; those URLs must resolve to the
+`/products/default` template, which Site Creator did not wire. Two options, both outside
+the repo:
+
+1. Folder mapping `"/products/": "/products/default"` in the site config
+   (`POST https://admin.hlx.page/config/{org}/sites/{site}/folders.json`, needs an admin
+   token). Deprecated by Adobe, quick, needs lowercase SKUs in URLs.
+2. AEM Commerce Prerender (App Builder) — Adobe's recommended route for launch, better
+   for SEO. Plan it with the App Builder work.
+
+Recommendation: 1 now for design review, 2 before go-live.
+
 ## Header and nav authoring contract
 
 The header is decorated from the `/nav` document in da.live. Its sections are read
@@ -76,12 +172,8 @@ by position:
 If utility is absent the header falls back to boilerplate behaviour (sign-in icon in
 tools), so the boilerplate demo nav still renders.
 
-Locally, `nav.plain.html` at the repo root mocks that document and `aem up` serves it
-in place of the proxied nav. It is in both `.gitignore` and `.hlxignore` and must never
-ship — a committed copy would shadow the authored nav in production.
-
-The search placeholder text comes from the `Global.Search` placeholder in da.live, not
-from code.
+Menu and footer URLs are still placeholders (`/apparel` everywhere); fixing them is a
+da.live edit, not code.
 
 ## Homepage blocks and their authoring contracts
 
@@ -105,6 +197,9 @@ the designer.
   image cell. Variant **Promo Card (Spotlight)** centres the heading and makes only its bold
   words bold (`**PRODUCT** OF THE MONTH`). Put the four cards in one section with Section
   Metadata **Style: promotions** to get Figma's 550 + 702 / 702 + 550 grid (from 1200px).
+- **Featured Products** (`blocks/featured-products`, `125:516`). Key/value rows: Title,
+  Subtitle, Count. Cards come from the catalog (price or Request Information from the
+  call-for-price attribute).
 - **Footer** (`/footer` document, `159:826`). Section 1: brand paragraphs (logo link, then
   the contact line), then one heading per column; a column containing a bold link becomes the
   sign-up column. Section 2: the copyright paragraph, then a list of legal links.
@@ -116,26 +211,30 @@ pseudo-element in `--button-chevron-color`, so variants change only that colour.
 Section Metadata `Style` values are turned into classes on the section by the delivery
 pipeline, not by client JavaScript — this `aem.js` has no section-metadata handling.
 
-Featured Products (`125:516`) is not built yet: the cards need live catalog data (price vs.
-Request Information from the call-for-price attribute), so it belongs with the commerce
-product card work.
+## Responsiveness
 
-## Local drafts and mocks
+- Mobile first; `min-width` queries at 600, 900 and 1200 px only.
+- Check every page at 375, 768, 1024 and 1440 px before calling it done; no horizontal
+  scroll at any width, tap targets ≥ 44 px, text never clipped.
+- Images: authored images get `width`/`height` and a responsive `<picture>`; never
+  stretch an image with CSS alone.
+- Mega menu, mini cart and search must work by keyboard and on touch.
 
-`npx aem up --no-open --html-folder drafts --html-mount /` serves `drafts/index.html` as the
-homepage at `/`; any path without a draft falls through to the proxied demo site, so catalog
-pages keep working. Keep drafts as full `.html` documents with `<!DOCTYPE html>` and a copy of
-`head.html` (re-copy when it changes). Do not use `.plain.html` drafts: the dev server wraps
-them without a doctype, the page renders in quirks mode, and percentage heights break in ways
-production never shows. Section Metadata is written in drafts as the class the pipeline
-would render. `drafts/`, `nav.plain.html` and `footer.plain.html` are gitignored and
-hlxignored; media in `drafts/media` are Figma exports standing in for authored content.
+## Performance
+
+Target PageSpeed Insights 100 on the branch preview before a PR (`AGENTS.md` step 3).
+- Only the first section's assets load eagerly; the hero's first image is the LCP element
+  and stays `loading="eager"`, everything else lazy.
+- No layout shift: reserve space for images, fonts (`fonts.css` with `font-display`),
+  and drop-in containers before they render.
+- Keep `styles.css` to what is needed above the fold; the rest goes in `lazy-styles.css`.
+- No new runtime dependencies; no third-party scripts outside `delayed.js`.
+- Committed images and icons are optimised (SVG cleaned, raster ≤ 200 KB).
 
 ## Pulling from Figma
 
-The Figma MCP connected to this chat may be a View seat (6 read calls a month). The terminal
-Claude Code has its own Figma connection (`claude mcp`, user scope). Design context can be
-pulled through it non-interactively and captured verbatim with
+The Figma MCP is configured at user level (`claude mcp`, user scope), so it is available
+in any project directory. Design context can be pulled non-interactively with
 `claude -p "<call get_design_context …>" --allowedTools mcp__figma__get_design_context
 --output-format stream-json --verbose`, then parsed from the tool_result. Asset URLs expire
 after 7 days — download them immediately.
@@ -148,7 +247,7 @@ after 7 days — download them immediately.
 | Product Restrictions | `Sirchie_ProductRestrictions` | law-enforcement gating, attribute + geo |
 | Hazmat indicator | `Sirchie_HazMatShipping` | display only; surcharge logic is App Builder |
 | International RFQ | `Sirchie_GeoIp` + `Sirchie_InternationalQuote` | CDN country header, not a GeoIP DB |
-| Request for Information forms | `Sirchie_RequestForInformation` | several variants |
+| Request for Information forms | `Sirchie_RequestForInformation` | several variants; must be admin-configurable (client decision, Sept 22) |
 | Request a Meeting form | new scope | |
 | Training course date selector | `Sirchie_EventCalendar` + `Sirchie_Training` | highest complexity |
 | Resource center | `Sirchie_ResourceCenter` | |
