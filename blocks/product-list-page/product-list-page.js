@@ -226,9 +226,11 @@ export default async function decorate(block) {
       ? `${totalCount} results found for <strong>"${payload.request.phrase}"</strong>.`
       : `${totalCount} results found.`;
 
-    // Update the view facets button with the number of filters
-    if (payload.request.filter.length > 0) {
-      $viewFacets.querySelector('button').setAttribute('data-count', payload.request.filter.length);
+    // Update the view facets button with the number of filters the shopper chose
+    const chosen = payload.request.filter
+      .filter((f) => !['categoryPath', 'visibility'].includes(f.attribute)).length;
+    if (chosen > 0) {
+      $viewFacets.querySelector('button').setAttribute('data-count', chosen);
     } else {
       $viewFacets.querySelector('button').removeAttribute('data-count');
     }
