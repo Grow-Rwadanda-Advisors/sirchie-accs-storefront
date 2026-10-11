@@ -468,7 +468,8 @@
 
 /* breadcrumb bar, Figma 212:2246: full-bleed tint, 14/20 bold, chevrons between crumbs */
 .product-details .product-details__breadcrumb {
-  margin: 0 calc(50% - 50vw) var(--sirchie-space-xl);
+  /* sits right under the header: cancels the first section's top margin */
+  margin: calc(-1 * var(--sirchie-space-xl)) calc(50% - 50vw) var(--sirchie-space-xl);
   padding: var(--sirchie-space-lg) max(var(--sirchie-space-xl), calc(50vw - var(--sirchie-content-width) / 2));
   background-color: #e5e8f6;
 }
@@ -477,7 +478,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--sirchie-space-sm) var(--sirchie-space-2xl);
+  gap: var(--sirchie-space-sm) var(--sirchie-space-md);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -486,7 +487,7 @@
 .product-details .product-details__breadcrumb li {
   display: flex;
   align-items: center;
-  gap: var(--sirchie-space-2xl);
+  gap: var(--sirchie-space-md);
   color: var(--sirchie-primary-muted);
   font: normal normal 700 1.4rem/2rem var(--sirchie-font-body);
 }
@@ -511,4 +512,15 @@
 
 .product-details .product-details__breadcrumb [aria-current] {
   color: var(--sirchie-info);
+}
+
+@media (min-width: 900px) {
+  .product-details .product-details__breadcrumb {
+    margin-top: calc(-1 * var(--sirchie-space-3xl));
+  }
+
+  .product-details .product-details__breadcrumb ol,
+  .product-details .product-details__breadcrumb li {
+    gap: var(--sirchie-space-2xl);
+  }
 }

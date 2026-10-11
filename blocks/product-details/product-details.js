@@ -634,38 +634,36 @@ function decorateSirchieLayout(block, product) {
 
 /**
  * Adds the Home > category > subcategory bar above the product (Figma 212:2246).
- * The pdp data has no categories, so they are read from the catalog; nothing is
- * rendered for a product outside any category.
+ * On ACCS a product's categories only come back through the search facets, so the
+ * product is looked up by SKU and the deepest category path gives the trail. Nothing is
+ * rendered for a product outside any category, or while the Categories facet is off.
  * @param {Element} block The product details block
  * @param {Object} product The product data
  */
 async function renderBreadcrumb(block, product) {
   if (!product?.sku || block.querySelector('.product-details__breadcrumb')) return;
-  let categories = [];
+  let buckets = [];
   try {
     const { data } = await pdpApi.fetchGraphQl(
       `query ($sku: String!) {
-        products(skus: [$sku]) {
-          categories { name slug level parents { name slug level } }
+        productSearch(phrase: "", page_size: 1, filter: [{ attribute: "sku", eq: $sku }]) {
+          facets { attribute buckets { ... on CategoryView { name path } } }
         }
       }`,
       { variables: { sku: product.sku } },
     );
-    categories = data?.products?.[0]?.categories ?? [];
+    const facet = data?.productSearch?.facets?.find((f) => f.attribute === 'categories');
+    buckets = (facet?.buckets ?? []).filter((b) => b.path);
   } catch (e) {
     return;
   }
-  // the deepest category gives the longest trail
-  const category = [...categories].sort((a, b) => (b.level || 0) - (a.level || 0))[0];
-  if (!category) return;
+  if (!buckets.length) return;
 
-  const trail = [...(category.parents || [])]
-    .filter((c) => c.level > 1)
-    .sort((a, b) => a.level - b.level);
-  trail.push(category);
-  // category pages live at the category's url path, e.g. /electronics/laptops
-  const slugs = [];
-  trail.forEach((c) => { slugs.push(c.slug); c.path = `/${slugs.join('/')}`; });
+  // the deepest path is the product's category; its ancestors are the other buckets
+  const deepest = buckets.reduce((a, b) => (b.path.split('/').length > a.path.split('/').length ? b : a));
+  const trail = buckets
+    .filter((b) => deepest.path === b.path || deepest.path.startsWith(`${b.path}/`))
+    .sort((a, b) => a.path.split('/').length - b.path.split('/').length);
 
   const nav = document.createElement('nav');
   nav.className = 'product-details__breadcrumb';
@@ -680,7 +678,7 @@ async function renderBreadcrumb(block, product) {
       item.textContent = c.name;
       item.setAttribute('aria-current', 'page');
     } else {
-      item.innerHTML = `<a href="${rootLink(c.path)}">${c.name}</a>`;
+      item.innerHTML = `<a href="${rootLink(`/${c.path}`)}">${c.name}</a>`;
     }
     list.append(item);
   });
