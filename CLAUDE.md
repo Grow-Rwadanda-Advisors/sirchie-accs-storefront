@@ -138,19 +138,13 @@ the design team rather than inventing layouts.
 Drop-in text (labels, errors) comes from `placeholders/*.json` in the repo; site-wide
 placeholders such as `Global.Search` come from da.live.
 
-## Product page routing (open)
+## Product page routing
 
-`getProductLink()` builds `/products/<url-key>/<sku>`; those URLs must resolve to the
-`/products/default` template, which Site Creator did not wire. Two options, both outside
-the repo:
-
-1. Folder mapping `"/products/": "/products/default"` in the site config
-   (`POST https://admin.hlx.page/config/{org}/sites/{site}/folders.json`, needs an admin
-   token). Deprecated by Adobe, quick, needs lowercase SKUs in URLs.
-2. AEM Commerce Prerender (App Builder) — Adobe's recommended route for launch, better
-   for SEO. Plan it with the App Builder work.
-
-Recommendation: 1 now for design review, 2 before go-live.
+`getProductLink()` builds `/products/<url-key>/<sku>`; a folder mapping in the site config
+(`/products/` → `/products/default`) serves those URLs from the PDP template. Set on
+11 Oct 2026; how to change it is in `SIRCHIE-SETUP.md`. Before go-live, replace it with
+AEM Commerce Prerender (App Builder): `product-details` then reads the SKU from
+`<meta name="sku">`, and the mapping is cleared.
 
 ## Header and nav authoring contract
 
