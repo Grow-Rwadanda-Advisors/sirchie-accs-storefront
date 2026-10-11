@@ -413,6 +413,7 @@ export default async function decorate(block) {
   );
 
   decorateSirchieLayout(block, product);
+  renderBreadcrumb(block, product);
 
   // Set JSON-LD and Meta Tags
   events.on('aem/lcp', () => {
@@ -590,6 +591,11 @@ function decorateSirchieLayout(block, product) {
   accordion(attributes, 'Additional information');
   accordion(description, 'Description');
 
+  // the short description opens the Description accordion; many products only have that
+  const shortDescription = block.querySelector('.product-details__short-description');
+  const descriptionBody = description?.querySelector('.product-details__accordion-body');
+  if (shortDescription && descriptionBody) descriptionBody.prepend(shortDescription);
+
   // the description runs the full width of the page in Figma, below both columns
   const wrapper = block.querySelector('.product-details__wrapper');
   if (wrapper && description) wrapper.append(description);
@@ -624,6 +630,59 @@ function decorateSirchieLayout(block, product) {
   actions.append(email);
 
   buttons.append(actions);
+}
+
+/**
+ * Adds the Home > category > subcategory bar above the product (Figma 212:2246).
+ * The pdp data has no categories, so they are read from the catalog; nothing is
+ * rendered for a product outside any category.
+ * @param {Element} block The product details block
+ * @param {Object} product The product data
+ */
+async function renderBreadcrumb(block, product) {
+  if (!product?.sku || block.querySelector('.product-details__breadcrumb')) return;
+  let categories = [];
+  try {
+    const { data } = await pdpApi.fetchGraphQl(
+      `query ($sku: String!) {
+        products(skus: [$sku]) {
+          categories { name slug level parents { name slug level } }
+        }
+      }`,
+      { variables: { sku: product.sku } },
+    );
+    categories = data?.products?.[0]?.categories ?? [];
+  } catch (e) {
+    return;
+  }
+  // the deepest category gives the longest trail
+  const category = [...categories].sort((a, b) => (b.level || 0) - (a.level || 0))[0];
+  if (!category) return;
+
+  const trail = [...(category.parents || [])]
+    .filter((c) => c.level > 1)
+    .sort((a, b) => a.level - b.level);
+  trail.push(category);
+
+  const nav = document.createElement('nav');
+  nav.className = 'product-details__breadcrumb';
+  nav.setAttribute('aria-label', 'Breadcrumb');
+  const list = document.createElement('ol');
+  const home = document.createElement('li');
+  home.innerHTML = `<a href="${rootLink('/')}">Home</a>`;
+  list.append(home);
+  trail.forEach((c, i) => {
+    const item = document.createElement('li');
+    if (i === trail.length - 1) {
+      item.textContent = c.name;
+      item.setAttribute('aria-current', 'page');
+    } else {
+      item.innerHTML = `<a href="${rootLink(`/${c.slug}`)}">${c.name}</a>`;
+    }
+    list.append(item);
+  });
+  nav.append(list);
+  block.prepend(nav);
 }
 
 /**

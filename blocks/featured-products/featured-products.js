@@ -1,18 +1,37 @@
 import SearchResults from '@dropins/storefront-product-discovery/containers/SearchResults.js';
 import { render as provider } from '@dropins/storefront-product-discovery/render.js';
-import { search } from '@dropins/storefront-product-discovery/api.js';
+import { search, fetchGraphQl } from '@dropins/storefront-product-discovery/api.js';
 import { Button, provider as UI } from '@dropins/tools/components.js';
 import * as cartApi from '@dropins/storefront-cart/api.js';
 import { tryRenderAemAssetsImage } from '@dropins/tools/lib/aem/assets.js';
 import { readBlockConfig } from '../../scripts/aem.js';
-import { fetchPlaceholders, getProductLink } from '../../scripts/commerce.js';
+import { fetchPlaceholders, getProductLink, getProductSku } from '../../scripts/commerce.js';
 import '../../scripts/initializers/search.js';
 
 let instanceCount = 0;
 
 /**
+ * SKUs linked to the current product page's product (related, upsell or crosssell).
+ * @param {string} linkType The product link type
+ * @returns {Promise<string[]>} Linked SKUs, empty when there are none
+ */
+async function fetchLinkedSkus(linkType) {
+  const sku = getProductSku();
+  if (!sku) return [];
+  const { data } = await fetchGraphQl(
+    `query ($sku: String!, $type: String!) {
+      products(skus: [$sku]) { links(linkTypes: [$type]) { product { sku } } }
+    }`,
+    { variables: { sku, type: linkType } },
+  );
+  return (data?.products?.[0]?.links ?? []).map((link) => link.product?.sku).filter(Boolean);
+}
+
+/**
  * Featured Products — Figma 125:516. Key/value block:
- * Title, Subtitle, Count (products to show) and optional Category (category path).
+ * Title, Subtitle, Count (products to show), optional Category (category path) and
+ * optional Source (related, upsell or crosssell: the links of the product being viewed,
+ * for the Related Products section of the product page).
  * Products come from the catalog through the product discovery drop-in, so the cards
  * match those on listing and search pages.
  * @param {Element} block The featured products block element
@@ -23,6 +42,16 @@ export default async function decorate(block) {
   const config = readBlockConfig(block);
   const pageSize = Number(config.count) || 8;
   const labels = await fetchPlaceholders();
+
+  // the section only exists on a product page with linked products
+  let linkedSkus;
+  if (config.source) {
+    linkedSkus = await fetchLinkedSkus(config.source).catch(() => []);
+    if (!linkedSkus.length) {
+      (block.closest('.section') || block).remove();
+      return;
+    }
+  }
 
   // products with options are configured on the product page, as on the listing page
   const requiresPdpConfiguration = (product) => product.typename === 'ComplexProductView'
@@ -108,6 +137,7 @@ export default async function decorate(block) {
 
   const filter = [{ attribute: 'visibility', in: ['Catalog', 'Catalog, Search'] }];
   if (config.category) filter.push({ attribute: 'categoryPath', eq: config.category });
+  if (linkedSkus) filter.push({ attribute: 'sku', in: linkedSkus });
 
   await search({ phrase: config.phrase || '', pageSize, filter }, { scope })
     .catch(() => { block.classList.add('featured-products--error'); });
