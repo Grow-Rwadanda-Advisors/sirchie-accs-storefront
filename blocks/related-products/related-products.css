@@ -1,0 +1,7 @@
+/* Related Products reuses the Featured Products header, rule and cards; that stylesheet
+   is loaded by the block, this one only holds the layout so nothing jumps meanwhile. */
+.related-products {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sirchie-space-3xl);
+}
