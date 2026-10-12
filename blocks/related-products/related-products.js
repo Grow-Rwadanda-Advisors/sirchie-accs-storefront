@@ -24,7 +24,7 @@ async function fetchLinkedSkus(sku, linkType) {
  * Related Products — the product page section under the description (Figma 347:1348).
  * Key/value block: Title, optional Link type (related, upsell or crosssell; default related).
  * Shows the products linked to the viewed product in Commerce, as featured-products cards.
- * The section is removed when the product has no links.
+ * The block is removed when the product has no links.
  * @param {Element} block The related products block element
  */
 export default async function decorate(block) {
@@ -32,7 +32,8 @@ export default async function decorate(block) {
   const linkType = block.textContent.match(/link type\s+(\w+)/i)?.[1]?.toLowerCase() || 'related';
   const skus = sku ? await fetchLinkedSkus(sku, linkType).catch(() => []) : [];
   if (!skus.length) {
-    (block.closest('.section') || block).remove();
+    // only this block goes; the product details share the section
+    (block.closest('.related-products-wrapper') || block).remove();
     return;
   }
   block.classList.add('featured-products');
