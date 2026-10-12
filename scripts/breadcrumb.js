@@ -6,9 +6,10 @@ import { rootLink } from './commerce.js';
  * The bar goes at the top of the block's section, above any authored heading.
  * @param {Element} block The block the bar belongs to
  * @param {{ name: string, path: string }[]} trail Ancestors first, current page last
+ * @param {boolean} [linkLast] Link the last crumb too (product pages: it is the category)
  * @returns {Element|null} The nav element, or null when there is no trail
  */
-export default function buildBreadcrumb(block, trail) {
+export default function buildBreadcrumb(block, trail, linkLast = false) {
   if (!trail?.length || document.querySelector('main .breadcrumb')) return null;
   const nav = document.createElement('nav');
   nav.className = 'breadcrumb';
@@ -19,9 +20,10 @@ export default function buildBreadcrumb(block, trail) {
   list.append(home);
   trail.forEach((crumb, i) => {
     const item = document.createElement('li');
-    if (i === trail.length - 1) {
+    const last = i === trail.length - 1;
+    if (last) item.setAttribute('aria-current', 'page');
+    if (last && !linkLast) {
       item.textContent = crumb.name;
-      item.setAttribute('aria-current', 'page');
     } else {
       const link = document.createElement('a');
       link.href = rootLink(`/${crumb.path}`);

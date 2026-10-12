@@ -665,7 +665,7 @@ async function renderBreadcrumb(block, product) {
   const trail = buckets
     .filter((b) => deepest.path === b.path || deepest.path.startsWith(`${b.path}/`))
     .sort((a, b) => a.path.split('/').length - b.path.split('/').length);
-  buildBreadcrumb(block, trail);
+  buildBreadcrumb(block, trail, true);
 }
 
 /**
