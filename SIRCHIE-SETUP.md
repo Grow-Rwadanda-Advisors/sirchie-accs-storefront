@@ -91,3 +91,84 @@ dev follows whichever repo `origin` points at.
   build or preview; it matters at launch for the sirchie.com domain and CDN
   configuration, and requires an unused Edge Delivery Services license on the
   program plus Business Owner role.
+
+## Page routing
+
+Product links are `/products/<url-key>/<sku>`, built by `getProductLink()` in
+`scripts/commerce.js`. They only work when the site config maps that folder to the
+`/products/default` template page. Site Creator does not set this; it was done by hand on
+11 Oct 2026 as below.
+
+### Now: folder mapping (design phase)
+
+The mapping is set through the aem.live config service at `admin.hlx.page`. It is
+separate from da.live: da.live's `config` sheet only controls who can edit content.
+
+**Who can do it.** The config-service admin is the GitHub account that installed the AEM
+Code Sync app, identified by its email. Here that is `havugapac@gmail.com`. Signing in
+with the work Adobe ID (`pacifique@growrwanda.com`) gave 403 on every config call until that
+address was added as admin. Both are admins now.
+
+**Steps (Chrome, no token copying):**
+
+1. Open `https://admin.hlx.page/logout`, then
+   `https://admin.hlx.page/auth/google?selectAccount=true` and pick an admin account
+   (`/auth/adobe?selectAccount=true` for an Adobe ID).
+2. Open `https://admin.hlx.page/profile` and check the `email` field.
+3. On that tab: Cmd+Option+I → **Console** → type `allow pasting`, Enter.
+4. Paste and run:
+
+   ```js
+   fetch('/config/grow-rwadanda-advisors/sites/sirchie-accs-storefront/folders.json', {
+     method: 'POST',
+     headers: { 'content-type': 'application/json' },
+     body: JSON.stringify({ '/products/': '/products/default' }),
+   }).then(r => r.text()).then(console.log)
+   ```
+
+   Expected output: `{"/products/":"/products/default"}`. The POST replaces the whole
+   object, so include every mapping you want to keep.
+   - 401: not signed in; redo step 1.
+   - 403: this account is not a config-service admin; sign in with one that is, or have
+     an admin add you (next section).
+   - Other 4xx: ask the Adobe contact to enable folder mapping for the site.
+5. Test `https://main--sirchie-accs-storefront--grow-rwadanda-advisors.aem.page/products/test-product/test-product`.
+   Preview and live both pick it up at once; no code change or da.live publish is needed.
+
+**Adding an admin** (same Console, signed in as an existing admin):
+
+```js
+fetch('/config/grow-rwadanda-advisors/sites/sirchie-accs-storefront/access/admin.json', {
+  method: 'POST',
+  headers: { 'content-type': 'application/json' },
+  body: JSON.stringify({ role: { admin: ['havugapac@gmail.com', 'pacifique@growrwanda.com'] } }),
+}).then(r => r.text()).then(console.log)
+```
+
+Always use the `admin` role. Giving only `config` removes the default rights from
+everyone else and breaks Preview/Publish in da.live ("Not authorized to preview").
+
+**Why not the `auth_token` cookie or curl.** The cookie works as
+`Authorization: token <value>`, but it is very long and the DevTools cookie table
+truncates it, which produced 401s. For scripts and CI, create an API key instead:
+`POST …/sites/sirchie-accs-storefront/apiKeys.json` with
+`{"description":"…","roles":["publish"]}`; the key is shown once.
+
+### Later: Prerender (App Builder phase, before go-live)
+
+Adobe flags folder mapping as legacy and it gives crawlers no product HTML. Switch when
+the real catalog is in ACCS, product URLs are final and the App Builder workspace exists
+for the other integrations (Sage, FedEx, Paya).
+
+1. Create Stage and Production App Builder workspaces; Developer role in the Adobe
+   Developer Console.
+2. Clone Adobe's `aem-commerce-prerender`, run its setup wizard with the site name, locale
+   and product URL format, plus an admin API key (valid one year; calendar the renewal).
+3. `npm run deploy`, then enable scheduled sync in its management UI.
+4. In this repo, change `product-details` to read the SKU from `<meta name="sku">`.
+5. Verify product and category pages, then clear the mapping: same `folders.json` call
+   with body `{}`.
+6. Known limits: category pages refresh about every 15 min; ~10k products per category.
+
+Folder mapping first lets the design be finished now; moving to Prerender later changes
+one block, not the design.

@@ -75,3 +75,35 @@
     border: 0;
   }
 }
+
+/* Sirchie order confirmation: navy title and section titles, white summary cards */
+.commerce-checkout-success h1,
+.commerce-checkout-success .order-confirmation-header__title,
+.commerce-checkout-success .dropin-header-container__title {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+}
+
+.commerce-checkout-success h2,
+.commerce-checkout-success h3,
+.commerce-checkout-success .cart-order-summary__heading-text,
+.commerce-checkout-success .order-order-summary__heading-text {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+  text-transform: uppercase;
+}
+
+.commerce-checkout-success .dropin-card {
+  border: 0;
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+.commerce-checkout-success .dropin-button--primary {
+  border-color: var(--sirchie-primary);
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}

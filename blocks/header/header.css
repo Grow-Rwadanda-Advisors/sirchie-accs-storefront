@@ -39,6 +39,14 @@ header nav[aria-expanded='true'] {
 }
 
 @media (min-width: 900px) {
+  /* the brand row and category menu stay on screen while the page scrolls;
+     the utility bar (5.3rem) scrolls away first */
+  header {
+    position: sticky;
+    top: -5.3rem;
+    z-index: 3;
+  }
+
   header .nav-wrapper {
     position: relative;
   }

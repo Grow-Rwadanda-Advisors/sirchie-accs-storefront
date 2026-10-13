@@ -32,3 +32,49 @@
     letter-spacing: var(--type-details-caption-1-letter-spacing);
     color: var(--color-positive-800);
 }
+
+/* Sirchie mini cart: white panel, navy heading and checkout button */
+.commerce-mini-cart .cart-mini-cart__heading-text,
+.commerce-mini-cart h1,
+.commerce-mini-cart h2 {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+  text-transform: uppercase;
+}
+
+.commerce-mini-cart .dropin-cart-item__title,
+.commerce-mini-cart .dropin-cart-item__title a {
+  color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+  text-decoration: none;
+}
+
+.commerce-mini-cart .dropin-cart-item__sku {
+  color: var(--sirchie-text-secondary);
+  font: normal normal 700 1.4rem/2rem var(--sirchie-font-body);
+}
+
+.commerce-mini-cart .dropin-button.dropin-button--primary {
+  height: 4.8rem;
+  border-color: var(--sirchie-primary);
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+.commerce-mini-cart .dropin-button.dropin-button--primary:hover {
+  border-color: var(--sirchie-primary-deep);
+  background-color: var(--sirchie-primary-deep);
+}
+
+.commerce-mini-cart .dropin-button--secondary,
+.commerce-mini-cart .dropin-button--tertiary {
+  color: var(--sirchie-info-hover);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+.commerce-mini-cart .commerce-mini-cart__message-wrapper {
+  background-color: var(--sirchie-info-focus);
+  color: var(--sirchie-primary);
+}

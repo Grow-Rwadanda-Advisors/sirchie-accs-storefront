@@ -134,6 +134,20 @@
  * row, navy Add To Cart, then the wish list and email actions.
  */
 
+/* Figma 261:1230: title, price row, quantity, button and actions sit 24px apart,
+   then a rule closes the group; the boilerplate margins would double those gaps */
+.product-details .product-details__right-column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sirchie-space-xl);
+}
+
+.product-details .product-details__header,
+.product-details .product-details__price,
+.product-details .product-details__configuration {
+  margin: 0;
+}
+
 .product-details .product-details__header .pdp-header__title {
   margin: 0;
   color: var(--sirchie-primary);
@@ -142,12 +156,23 @@
 
 .product-details .product-details__price {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--sirchie-space-sm);
-  padding-bottom: var(--sirchie-space-xl);
-  border-bottom: 1px solid var(--sirchie-text-disabled);
 }
+
+/* the description runs under both columns at every width */
+.product-details .product-details__description {
+  grid-column: 1 / -1;
+}
+
+.product-details .product-details__configuration {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sirchie-space-xl);
+}
+
 
 .product-details .product-details__price .dropin-price,
 .product-details .product-details__price .pdp-price__amount {
@@ -159,6 +184,10 @@
   flex: none;
   color: var(--sirchie-text-secondary);
   font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+}
+
+.product-details .product-details__sku::before {
+  content: 'SKU: ';
 }
 
 .product-details .product-details__quantity .dropin-incrementer__label,
@@ -262,15 +291,24 @@
   }
 
   .product-details .product-details__right-column {
-    display: flex;
-    flex-direction: column;
     grid-column: 2;
-    gap: var(--sirchie-space-2xl);
+    padding-top: 0;
   }
 
   /* main image 495px tall, thumbnails 91x80 beneath it (selected 136x120) */
   .product-details .product-details__left-column .pdp-carousel__wrapper {
     height: 49.5rem;
+  }
+
+  /* one slide at a time, no peek of the next one */
+  .product-details .product-details__left-column .pdp-carousel__slide {
+    flex: 0 0 100%;
+    width: 100%;
+  }
+
+  /* previous / next arrows beside the thumbnails, in the brand blue */
+  .product-details .product-details__left-column .pdp-carousel__button--thumbnailsRow {
+    color: var(--sirchie-info);
   }
 
   .product-details .product-details__left-column .pdp-carousel__slide img {
@@ -333,7 +371,14 @@
 }
 
 /* the short description is shown in the Description accordion, not above the quantity */
-.product-details .product-details__short-description {
+.product-details .product-details__right-column > .product-details__short-description,
+.product-details .pdp-description:empty {
+  display: none;
+}
+
+/* no rule or heading for an accordion with nothing in it */
+.product-details .product-details__attributes:has(.pdp-attributes ul:empty),
+.product-details .product-details__description:has(.product-details__accordion-body:empty) {
   display: none;
 }
 
@@ -395,12 +440,6 @@
 .product-details .product-details__accordion-body a {
   color: var(--sirchie-info-hover);
   text-decoration: underline;
-}
-
-@media (min-width: 900px) {
-  .product-details .product-details__description {
-    grid-column: 1 / -1;
-  }
 }
 
 /* the add-to-cart status line is empty until something is added */

@@ -16,12 +16,14 @@ let instanceCount = 0;
  * Products come from the catalog through the product discovery drop-in, so the cards
  * match those on listing and search pages.
  * @param {Element} block The featured products block element
+ * @param {Object} [options]
+ * @param {string[]} [options.skus] Show only these products (used by related-products)
  */
-export default async function decorate(block) {
+export default async function decorate(block, { skus } = {}) {
   instanceCount += 1;
   const scope = `featured-products-${instanceCount}`;
   const config = readBlockConfig(block);
-  const pageSize = Number(config.count) || 8;
+  const pageSize = Number(config.count) || skus?.length || 8;
   const labels = await fetchPlaceholders();
 
   // products with options are configured on the product page, as on the listing page
@@ -108,6 +110,7 @@ export default async function decorate(block) {
 
   const filter = [{ attribute: 'visibility', in: ['Catalog', 'Catalog, Search'] }];
   if (config.category) filter.push({ attribute: 'categoryPath', eq: config.category });
+  if (skus) filter.push({ attribute: 'sku', in: skus });
 
   await search({ phrase: config.phrase || '', pageSize, filter }, { scope })
     .catch(() => { block.classList.add('featured-products--error'); });

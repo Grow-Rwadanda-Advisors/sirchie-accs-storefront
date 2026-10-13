@@ -35,6 +35,7 @@ import {
 
 // Initializers
 import { IMAGES_SIZES } from '../../scripts/initializers/pdp.js';
+import buildBreadcrumb from '../../scripts/breadcrumb.js';
 import '../../scripts/initializers/cart.js';
 import '../../scripts/initializers/wishlist.js';
 
@@ -413,6 +414,7 @@ export default async function decorate(block) {
   );
 
   decorateSirchieLayout(block, product);
+  renderBreadcrumb(block, product);
 
   // Set JSON-LD and Meta Tags
   events.on('aem/lcp', () => {
@@ -590,6 +592,11 @@ function decorateSirchieLayout(block, product) {
   accordion(attributes, 'Additional information');
   accordion(description, 'Description');
 
+  // the short description opens the Description accordion; many products only have that
+  const shortDescription = block.querySelector('.product-details__short-description');
+  const descriptionBody = description?.querySelector('.product-details__accordion-body');
+  if (shortDescription && descriptionBody) descriptionBody.prepend(shortDescription);
+
   // the description runs the full width of the page in Figma, below both columns
   const wrapper = block.querySelector('.product-details__wrapper');
   if (wrapper && description) wrapper.append(description);
@@ -624,6 +631,41 @@ function decorateSirchieLayout(block, product) {
   actions.append(email);
 
   buttons.append(actions);
+}
+
+/**
+ * Adds the Home > category > subcategory bar above the product (Figma 212:2246).
+ * On ACCS a product's categories only come back through the search facets, so the
+ * product is looked up by SKU and the deepest category path gives the trail. Nothing is
+ * rendered for a product outside any category, or while the Categories facet is off.
+ * @param {Element} block The product details block
+ * @param {Object} product The product data
+ */
+async function renderBreadcrumb(block, product) {
+  if (!product?.sku) return;
+  let buckets = [];
+  try {
+    const { data } = await pdpApi.fetchGraphQl(
+      `query ($sku: String!) {
+        productSearch(phrase: "", page_size: 1, filter: [{ attribute: "sku", eq: $sku }]) {
+          facets { attribute buckets { ... on CategoryView { name path } } }
+        }
+      }`,
+      { variables: { sku: product.sku } },
+    );
+    const facet = data?.productSearch?.facets?.find((f) => f.attribute === 'categories');
+    buckets = (facet?.buckets ?? []).filter((b) => b.path);
+  } catch (e) {
+    return;
+  }
+  if (!buckets.length) return;
+
+  // the deepest path is the product's category; its ancestors are the other buckets
+  const deepest = buckets.reduce((a, b) => (b.path.split('/').length > a.path.split('/').length ? b : a));
+  const trail = buckets
+    .filter((b) => deepest.path === b.path || deepest.path.startsWith(`${b.path}/`))
+    .sort((a, b) => a.path.split('/').length - b.path.split('/').length);
+  buildBreadcrumb(block, trail, true);
 }
 
 /**
