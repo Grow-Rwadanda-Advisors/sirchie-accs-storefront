@@ -137,3 +137,135 @@
 .dropin-product-item-card .dropin-product-item-card__title a:hover {
   color: var(--sirchie-primary);
 }
+
+/*
+ * Order pages (confirmation, order details, returns, order status result): the drop-in
+ * cards become white 8px cards with navy titles, matching the cart summary.
+ */
+[class*='commerce-order'] .dropin-card--secondary,
+[class*='commerce-shipping-status'] .dropin-card--secondary,
+[class*='commerce-customer-details'] .dropin-card--secondary,
+[class*='commerce-return'] .dropin-card--secondary {
+  border: 0;
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+[class*='commerce-order'] .dropin-header-container__title,
+[class*='commerce-shipping-status'] .dropin-header-container__title,
+[class*='commerce-customer-details'] .dropin-header-container__title,
+[class*='commerce-return'] .dropin-header-container__title {
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+  text-transform: uppercase;
+}
+
+/* the page title ("Order 000000001" / "thank you for your order") stays in the heading font */
+.commerce-order-header .dropin-header-container__title,
+.commerce-order-header h1 {
+  color: var(--sirchie-primary);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+  text-transform: none;
+}
+
+[class*='commerce-order'] .dropin-divider,
+[class*='commerce-shipping-status'] .dropin-divider,
+[class*='commerce-customer-details'] .dropin-divider {
+  border-color: var(--sirchie-neutral-disabled);
+}
+
+.commerce-customer-details .order-customer-details-content__container-title,
+.commerce-order-product-list .dropin-cart-item__title {
+  color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+[class*='commerce-order'] .dropin-button.dropin-button--primary,
+.commerce-order-header .dropin-button.dropin-button--primary {
+  border-color: var(--sirchie-primary);
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+[class*='commerce-order'] .dropin-button.dropin-button--secondary {
+  border-color: var(--sirchie-info-hover);
+  border-radius: var(--sirchie-radius-md);
+  color: var(--sirchie-info-hover);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+/*
+ * Commerce forms (sign in, sign up, reset password, order lookup, account forms).
+ * No Figma frame: navy heading-font titles, white 8px fields, navy primary buttons and
+ * blue text links, the same vocabulary as the product and checkout pages.
+ */
+.auth-sign-in-form .dropin-header-container__title,
+.auth-sign-up-form .dropin-header-container__title,
+.auth-reset-password-form .dropin-header-container__title,
+.order-order-search-form__title,
+.account-header .dropin-header-container__title {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+}
+
+.auth-sign-in-form .dropin-input,
+.auth-sign-up-form .dropin-input,
+.auth-reset-password-form .dropin-input,
+.order-order-search-form .dropin-input,
+.account-form .dropin-input,
+.account-form .dropin-picker__select {
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+.auth-sign-in-form .dropin-button.dropin-button--primary,
+.auth-sign-up-form .dropin-button.dropin-button--primary,
+.auth-reset-password-form .dropin-button.dropin-button--primary,
+.order-order-search-form .dropin-button.dropin-button--primary,
+.account-form .dropin-button.dropin-button--primary {
+  height: 4.8rem;
+  padding: 0 var(--sirchie-space-xl);
+  border-color: var(--sirchie-primary);
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+.auth-sign-in-form .dropin-button.dropin-button--primary:hover,
+.auth-sign-up-form .dropin-button.dropin-button--primary:hover,
+.auth-reset-password-form .dropin-button.dropin-button--primary:hover,
+.order-order-search-form .dropin-button.dropin-button--primary:hover,
+.account-form .dropin-button.dropin-button--primary:hover {
+  border-color: var(--sirchie-primary-deep);
+  background-color: var(--sirchie-primary-deep);
+}
+
+.auth-sign-in-form .dropin-button--tertiary,
+.auth-sign-up-form .dropin-button--tertiary,
+.auth-reset-password-form .dropin-button--tertiary,
+.account-form .dropin-button--secondary {
+  color: var(--sirchie-info-hover);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+.auth-sign-in-form .dropin-button--tertiary:hover,
+.auth-sign-up-form .dropin-button--tertiary:hover,
+.auth-reset-password-form .dropin-button--tertiary:hover {
+  color: var(--sirchie-primary);
+}
+
+/* the sign-in, sign-up and lookup cards share one width and padding */
+.commerce-login .auth-sign-in-form,
+.commerce-create-account .auth-sign-up-form,
+.commerce-forgot-password .auth-reset-password-form,
+.commerce-search-order .order-order-search-form {
+  box-sizing: border-box;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: var(--sirchie-space-2xl);
+  border: 0;
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
