@@ -95,3 +95,109 @@
     flex-basis: auto;
   }
 }
+
+/*
+ * Sirchie cart. No Figma frame: page title and section titles follow the product page
+ * (navy heading font), the summary sits in a white card, the checkout button is the
+ * navy primary used for Add to Cart.
+ */
+.commerce-cart h1.cart-cart-summary-list__heading-text {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+}
+
+.commerce-cart .cart-cart-summary-list__heading-divider,
+.commerce-cart .cart-order-summary__divider-primary {
+  border-color: var(--sirchie-neutral-disabled);
+}
+
+.commerce-cart .cart-order-summary {
+  padding: var(--sirchie-space-xl);
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+.commerce-cart .cart-order-summary__heading-text {
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+  text-transform: uppercase;
+}
+
+.commerce-cart .cart-order-summary__label,
+.commerce-cart .cart-order-summary .dropin-price {
+  color: var(--sirchie-text-body);
+  font: normal normal 400 1.6rem/2.4rem var(--sirchie-font-body);
+}
+
+.commerce-cart .cart-order-summary__total .cart-order-summary__label,
+.commerce-cart .cart-order-summary__total .dropin-price {
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.4rem var(--sirchie-font-body);
+}
+
+.commerce-cart .cart-item-edit-link .dropin-button,
+.commerce-cart .cart__action--wishlist-toggle .dropin-button {
+  color: var(--sirchie-info-hover);
+}
+
+.commerce-cart .cart-order-summary__primaryAction .dropin-button,
+.commerce-cart .cart__empty-cart .dropin-button--primary {
+  height: 4.8rem;
+  border-color: var(--sirchie-primary);
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+.commerce-cart .cart-order-summary__primaryAction .dropin-button:hover,
+.commerce-cart .cart__empty-cart .dropin-button--primary:hover {
+  border-color: var(--sirchie-primary-deep);
+  background-color: var(--sirchie-primary-deep);
+}
+
+/* cart line: navy name and price, secondary SKU */
+.commerce-cart .dropin-cart-item__title,
+.commerce-cart .dropin-cart-item__title a {
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+  text-decoration: none;
+}
+
+.commerce-cart .dropin-cart-item__title a:hover {
+  text-decoration: underline;
+}
+
+.commerce-cart .dropin-cart-item__sku {
+  color: var(--sirchie-text-secondary);
+  font: normal normal 700 1.4rem/2rem var(--sirchie-font-body);
+}
+
+.commerce-cart .dropin-cart-item__total .dropin-price,
+.commerce-cart .dropin-cart-item__price .dropin-price {
+  color: var(--sirchie-primary);
+  font-weight: 700;
+}
+
+.commerce-cart .dropin-cart-item__image {
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+/* the gift options card matches the summary card */
+.commerce-cart .cart__gift-options .dropin-card {
+  border: 0;
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+@media (min-width: 900px) {
+  .commerce-cart .cart__wrapper {
+    gap: var(--sirchie-space-3xl);
+  }
+
+  .commerce-cart .cart__right-column {
+    flex-basis: 40rem;
+    flex-grow: 0;
+  }
+}

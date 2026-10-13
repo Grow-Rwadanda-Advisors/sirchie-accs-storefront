@@ -296,3 +296,114 @@
         margin-top: 0;
     }
 }
+
+/*
+ * Sirchie checkout: navy page title, uppercase navy section titles like the product page
+ * accordions, summary in a white card, navy Place Order button.
+ */
+.commerce-checkout .checkout-header h1.dropin-header-container__title {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+}
+
+.commerce-checkout .checkout-login-form__title,
+.commerce-checkout .checkout-shipping-methods__title h3,
+.commerce-checkout .checkout-payment-methods__title h2,
+.commerce-checkout .checkout__shipping-form .dropin-header-container__title,
+.commerce-checkout .checkout__billing-form .dropin-header-container__title,
+.commerce-checkout .checkout__shipping-form .account-address-form-wrapper__title,
+.commerce-checkout .checkout__billing-form .account-address-form-wrapper__title,
+.commerce-checkout .cart-order-summary__heading-text,
+.commerce-checkout .cart-cart-summary-list__heading-text {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.2rem var(--sirchie-font-body);
+  text-transform: uppercase;
+}
+
+/* room between a form title and its first field */
+.commerce-checkout .checkout__shipping-form .account-address-form-wrapper__title,
+.commerce-checkout .checkout__billing-form .account-address-form-wrapper__title,
+.commerce-checkout .checkout-login-form__heading {
+  margin-bottom: var(--sirchie-space-lg);
+}
+
+.commerce-checkout .checkout__block .dropin-divider,
+.commerce-checkout .checkout__shipping-form .dropin-header-container .dropin-divider,
+.commerce-checkout .checkout__billing-form .dropin-header-container .dropin-divider {
+  border-color: var(--sirchie-neutral-disabled);
+}
+
+.commerce-checkout .checkout__aside .cart-order-summary {
+  padding: var(--sirchie-space-xl);
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+.commerce-checkout .cart-order-summary__label,
+.commerce-checkout .cart-order-summary .dropin-price {
+  color: var(--sirchie-text-body);
+  font: normal normal 400 1.6rem/2.4rem var(--sirchie-font-body);
+}
+
+.commerce-checkout .cart-order-summary__total .cart-order-summary__label,
+.commerce-checkout .cart-order-summary__total .dropin-price {
+  color: var(--sirchie-primary);
+  font: normal normal 700 2rem/2.4rem var(--sirchie-font-body);
+}
+
+/* form fields: white, 8px radius, navy focus */
+.commerce-checkout .dropin-field .dropin-input,
+.commerce-checkout .dropin-field .dropin-picker__select,
+.commerce-checkout .dropin-field .dropin-textarea {
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+.commerce-checkout .checkout-place-order button.dropin-button--primary {
+  height: 4.8rem;
+  min-width: 24rem;
+  border-color: var(--sirchie-primary);
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+.commerce-checkout .checkout-place-order button.dropin-button--primary:hover {
+  border-color: var(--sirchie-primary-deep);
+  background-color: var(--sirchie-primary-deep);
+}
+
+.commerce-checkout .cart-summary-list__edit,
+.commerce-checkout .checkout-login-form__heading-label a {
+  color: var(--sirchie-info-hover);
+  font-weight: 700;
+}
+
+.commerce-checkout .dropin-cart-item__title,
+.commerce-checkout .dropin-cart-item__title a {
+  color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+  text-decoration: none;
+}
+
+.commerce-checkout .dropin-cart-item__sku {
+  color: var(--sirchie-text-secondary);
+  font: normal normal 700 1.4rem/2rem var(--sirchie-font-body);
+}
+
+/* selected payment / shipping method outlined in brand blue */
+.commerce-checkout .dropin-radio-button__input:checked + .dropin-radio-button__label::before,
+.commerce-checkout .checkout-payment-methods__method--selected {
+  border-color: var(--sirchie-info-hover);
+}
+
+/* address forms sit in a white card like the order summary */
+.commerce-checkout .checkout__shipping-form,
+.commerce-checkout .checkout__billing-form {
+  padding: var(--sirchie-space-xl);
+  border-top: 0;
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
