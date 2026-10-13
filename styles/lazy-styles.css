@@ -227,6 +227,80 @@
 }
 
 /*
+ * Account area: one navy heading-font title per page, white cards, and a sidebar whose
+ * active item is outlined in navy on the light brand tint.
+ */
+.commerce-account-header .dropin-header-container__title,
+.commerce-orders-list .dropin-header-container__title,
+.commerce-addresses .dropin-header-container__title,
+.commerce-customer-information .dropin-header-container__title,
+.commerce-customer-details .dropin-header-container__title,
+.commerce-returns-list .dropin-header-container__title,
+.commerce-wishlist .dropin-header-container__title,
+.commerce-addresses h1,
+.commerce-wishlist h1,
+.commerce-wishlist h2 {
+  margin: 0;
+  color: var(--sirchie-primary);
+  font: normal normal 700 3.2rem/3.4rem var(--sirchie-font-heading);
+  text-transform: none;
+}
+
+.commerce-orders-list .dropin-divider,
+.commerce-addresses .dropin-divider,
+.commerce-customer-information .dropin-divider,
+.commerce-wishlist .dropin-divider {
+  border-color: var(--sirchie-neutral-disabled);
+}
+
+.commerce-orders-list .dropin-card,
+.commerce-addresses .dropin-card,
+.commerce-customer-information .dropin-card,
+.commerce-returns-list .dropin-card,
+.commerce-wishlist .dropin-card {
+  border: 0;
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+.commerce-orders-list .dropin-card__title,
+.commerce-addresses .dropin-card__title,
+.commerce-customer-information .dropin-card__title,
+.commerce-returns-list .dropin-card__title,
+.commerce-wishlist .dropin-card__title {
+  color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+.commerce-orders-list .dropin-input,
+.commerce-orders-list .dropin-picker__select,
+.commerce-addresses .dropin-input,
+.commerce-addresses .dropin-picker__select,
+.commerce-customer-information .dropin-input {
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-surface);
+}
+
+.commerce-orders-list .dropin-button.dropin-button--primary,
+.commerce-addresses .dropin-button.dropin-button--primary,
+.commerce-customer-information .dropin-button.dropin-button--primary,
+.commerce-wishlist .dropin-button.dropin-button--primary {
+  border-color: var(--sirchie-primary);
+  border-radius: var(--sirchie-radius-md);
+  background-color: var(--sirchie-primary);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+.commerce-orders-list .dropin-button.dropin-button--secondary,
+.commerce-addresses .dropin-button.dropin-button--secondary,
+.commerce-customer-information .dropin-button.dropin-button--secondary {
+  border-color: var(--sirchie-info-hover);
+  border-radius: var(--sirchie-radius-md);
+  color: var(--sirchie-info-hover);
+  font: normal normal 700 1.6rem/2.2rem var(--sirchie-font-body);
+}
+
+/*
  * Commerce forms (sign in, sign up, reset password, order lookup, account forms).
  * No Figma frame: navy heading-font titles, white 8px fields, navy primary buttons and
  * blue text links, the same vocabulary as the product and checkout pages.
