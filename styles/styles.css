@@ -601,7 +601,7 @@ main img {
 
 /* sections */
 main > .section {
-  margin: var(--sirchie-space-3xl) 0;
+  margin: var(--sirchie-space-2xl) 0;
 }
 
 .section:empty {
@@ -616,6 +616,12 @@ main > .section > div {
 
 main > .section:first-of-type {
   margin-top: var(--sirchie-space-xl);
+}
+
+@media (min-width: 600px) {
+  main > .section {
+    margin: var(--sirchie-space-3xl) 0;
+  }
 }
 
 @media (min-width: 900px) {

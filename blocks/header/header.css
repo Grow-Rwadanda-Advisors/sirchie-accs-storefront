@@ -60,7 +60,7 @@ header nav[aria-expanded='true'] {
     grid-template:
       'utility utility utility' 5.3rem
       'brand cta tools' 9.4rem
-      'sections sections sections' 4.1rem / auto 1fr auto;
+      'sections sections sections' minmax(4.1rem, auto) / auto 1fr auto;
     gap: 0 var(--sirchie-space-lg);
     max-width: none;
     padding: 0 var(--sirchie-space-2xl);
@@ -70,6 +70,13 @@ header nav[aria-expanded='true'] {
   header nav[aria-expanded='true'] {
     min-height: 0;
     overflow: visible;
+  }
+
+  /* grows with a wrapped category row */
+  header,
+  header nav {
+    height: auto;
+    min-height: var(--nav-height);
   }
 }
 
@@ -254,9 +261,11 @@ header nav .nav-sections ul>li:empty {
     text-decoration: none;
   }
 
+  /* the category row wraps on narrow desktops instead of widening the page */
   header nav .nav-sections ul {
     display: flex;
-    gap: clamp(1.6rem, 2.2vw, 3.2rem);
+    flex-wrap: wrap;
+    gap: 0 clamp(1.6rem, 2.2vw, 3.2rem);
     margin: 0;
   }
 
@@ -752,6 +761,7 @@ header .nav-search-input .search_autocomplete .popover-container {
 
   header nav .nav-sections ul>li.nav-drop {
     cursor: pointer;
+    padding-right: 3.2rem;
   }
 
   header nav .nav-sections ul>li.nav-drop::before {

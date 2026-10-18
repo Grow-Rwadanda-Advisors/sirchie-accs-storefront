@@ -222,7 +222,6 @@ main > .section.hero-carousel-container > .hero-carousel-wrapper {
  * button on a navy card, with a yellow 73px CTA and a contained image.
  */
 .hero-carousel.dark .hero-carousel-slide {
-  border: 0;
   background-color: var(--sirchie-primary);
 }
 

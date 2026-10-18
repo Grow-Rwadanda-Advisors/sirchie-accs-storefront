@@ -173,6 +173,11 @@
   font: normal normal 400 2rem/3.4rem var(--sirchie-font-body);
 }
 
+/* stacked cards keep the grid's 32px gap */
+main > .section.promotions > div + div {
+  margin-top: var(--sirchie-space-2xl);
+}
+
 @media (min-width: 1200px) {
   main > .section.promotions {
     display: flex;
