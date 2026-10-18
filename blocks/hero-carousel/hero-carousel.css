@@ -5,7 +5,13 @@
  */
 
 main > .section.hero-carousel-container > .hero-carousel-wrapper {
-  padding: 0;
+  padding: 0 var(--sirchie-space-lg);
+}
+
+@media (min-width: 600px) {
+  main > .section.hero-carousel-container > .hero-carousel-wrapper {
+    padding: 0 var(--sirchie-space-xl);
+  }
 }
 
 .hero-carousel {

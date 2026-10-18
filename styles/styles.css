@@ -611,7 +611,7 @@ main > .section {
 main > .section > div {
   max-width: var(--sirchie-content-width);
   margin: auto;
-  padding: 0 var(--sirchie-space-md);
+  padding: 0 var(--sirchie-space-lg);
 }
 
 main > .section:first-of-type {
@@ -621,6 +621,10 @@ main > .section:first-of-type {
 @media (min-width: 600px) {
   main > .section {
     margin: var(--sirchie-space-3xl) 0;
+  }
+
+  main > .section > div {
+    padding: 0 var(--sirchie-space-xl);
   }
 }
 

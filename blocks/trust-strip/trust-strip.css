@@ -3,7 +3,13 @@
  */
 
 main > .section.trust-strip-container > .trust-strip-wrapper {
-  padding: 0;
+  padding: 0 var(--sirchie-space-lg);
+}
+
+@media (min-width: 600px) {
+  main > .section.trust-strip-container > .trust-strip-wrapper {
+    padding: 0 var(--sirchie-space-xl);
+  }
 }
 
 .trust-strip {
