@@ -352,6 +352,11 @@ header nav .nav-tools {
   z-index: 3;
 }
 
+/* an open cart or search panel sits above an expanded mega menu */
+header nav .nav-tools:has(.nav-tools-panel--show) {
+  z-index: 6;
+}
+
 header nav .nav-tools-wrapper>button {
   color: var(--color-brand-700);
   background: transparent;
