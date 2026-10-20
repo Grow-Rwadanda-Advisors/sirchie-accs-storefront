@@ -229,3 +229,50 @@
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+/* loading: a result line and three placeholder cards until the catalog answers */
+.block.product-list-page.product-list-page--loading .search__result-info:empty::before {
+  content: 'Loading products…';
+}
+
+.block.product-list-page.product-list-page--loading .search__product-list:empty,
+.block.product-list-page.product-list-page--loading .search__product-list > div:empty {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sirchie-space-lg);
+  min-height: 42rem;
+}
+
+.block.product-list-page.product-list-page--loading .search__product-list:empty::before,
+.block.product-list-page.product-list-page--loading .search__product-list:empty::after,
+.block.product-list-page.product-list-page--loading .search__product-list > div:empty::before,
+.block.product-list-page.product-list-page--loading .search__product-list > div:empty::after {
+  content: '';
+  display: block;
+  min-height: 42rem;
+  border-radius: var(--sirchie-radius-md);
+  background: linear-gradient(90deg, var(--sirchie-surface) 25%, var(--sirchie-neutral-bg) 50%, var(--sirchie-surface) 75%);
+  background-size: 200% 100%;
+  animation: product-list-page-shimmer 1.4s linear infinite;
+}
+
+@keyframes product-list-page-shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .block.product-list-page.product-list-page--loading .search__product-list:empty::before,
+  .block.product-list-page.product-list-page--loading .search__product-list:empty::after,
+  .block.product-list-page.product-list-page--loading .search__product-list > div:empty::before,
+  .block.product-list-page.product-list-page--loading .search__product-list > div:empty::after {
+    animation: none;
+  }
+}
+
+@media (min-width: 600px) {
+  .block.product-list-page.product-list-page--loading .search__product-list:empty,
+  .block.product-list-page.product-list-page--loading .search__product-list > div:empty {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

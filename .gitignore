@@ -23,3 +23,4 @@ scripts/__dropins__/**/*.map
 # Local draft pages served with `aem up --html-folder drafts`. Never ship.
 /drafts/
 /footer.plain.html
+/samples/

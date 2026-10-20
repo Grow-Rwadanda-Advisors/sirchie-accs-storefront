@@ -320,7 +320,7 @@ export async function loadCommerceLazy() {
 /**
  * Initializes commerce configuration
  */
-export async function initializeCommerce() {
+export async function initializeCommerceConfig() {
   // Initialize Config
   initializeConfig(await getConfigFromSession());
 
@@ -331,7 +331,14 @@ export async function initializeCommerce() {
   // Set Fetch GraphQL (Catalog Service)
   CS_FETCH_GRAPHQL.setEndpoint(await commerceEndpointWithQueryParams());
   CS_FETCH_GRAPHQL.setFetchGraphQlHeaders((prev) => ({ ...prev, ...getHeaders('cs') }));
+}
 
+export function initializeCommerceDropins() {
+  return initializeDropins();
+}
+
+export async function initializeCommerce() {
+  await initializeCommerceConfig();
   return initializeDropins();
 }
 

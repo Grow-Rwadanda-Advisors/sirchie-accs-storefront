@@ -3,7 +3,13 @@
  */
 
 main > .section.trust-strip-container > .trust-strip-wrapper {
-  padding: 0;
+  padding: 0 var(--sirchie-space-lg);
+}
+
+@media (min-width: 600px) {
+  main > .section.trust-strip-container > .trust-strip-wrapper {
+    padding: 0 var(--sirchie-space-xl);
+  }
 }
 
 .trust-strip {
@@ -13,6 +19,7 @@ main > .section.trust-strip-container > .trust-strip-wrapper {
   gap: var(--sirchie-space-3xl);
   overflow: hidden;
   padding: var(--sirchie-space-3xl) 8rem;
+  border: 2px solid var(--sirchie-info-hover);
   border-radius: var(--sirchie-radius-lg);
   background-color: var(--sirchie-primary);
   color: var(--sirchie-primary-on);

@@ -13,7 +13,8 @@ import {
 import {
   loadCommerceEager,
   loadCommerceLazy,
-  initializeCommerce,
+  initializeCommerceConfig,
+  initializeCommerceDropins,
   applyTemplates,
   decorateLinks,
   loadErrorPage,
@@ -204,15 +205,19 @@ async function loadEager(doc) {
   const main = doc.querySelector('main');
   if (main) {
     try {
-      await initializeCommerce();
+      await initializeCommerceConfig();
       decorateMain(main);
       applyTemplates(doc);
+      // the page and header show while the drop-ins start up (placeholders,
+      // auth context, store config), which takes a few round trips
+      document.body.classList.add('appear');
+      loadHeader(doc.querySelector('header'));
+      await initializeCommerceDropins();
       await loadCommerceEager();
     } catch (e) {
       console.error('Error initializing commerce configuration:', e);
       loadErrorPage(418);
     }
-    document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
 
@@ -231,8 +236,6 @@ async function loadEager(doc) {
  * @param {Element} doc The container element
  */
 async function loadLazy(doc) {
-  loadHeader(doc.querySelector('header'));
-
   const main = doc.querySelector('main');
   await loadSections(main);
 

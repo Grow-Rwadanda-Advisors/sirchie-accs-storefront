@@ -78,7 +78,7 @@
     width: fit-content;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 900px) {
   .cart__wrapper {
     flex-direction: row;
     position: relative;

@@ -601,7 +601,7 @@ main img {
 
 /* sections */
 main > .section {
-  margin: var(--sirchie-space-3xl) 0;
+  margin: var(--sirchie-space-2xl) 0;
 }
 
 .section:empty {
@@ -611,11 +611,21 @@ main > .section {
 main > .section > div {
   max-width: var(--sirchie-content-width);
   margin: auto;
-  padding: 0 var(--sirchie-space-md);
+  padding: 0 var(--sirchie-space-lg);
 }
 
 main > .section:first-of-type {
   margin-top: var(--sirchie-space-xl);
+}
+
+@media (min-width: 600px) {
+  main > .section {
+    margin: var(--sirchie-space-3xl) 0;
+  }
+
+  main > .section > div {
+    padding: 0 var(--sirchie-space-xl);
+  }
 }
 
 @media (min-width: 900px) {
@@ -852,3 +862,45 @@ main a.button.button-chevron::before {
     url('../icons/sirchie/button-chevron-slash.svg') 2.1rem 0 / 3.5472rem 100% no-repeat;
 }
 /* stylelint-enable no-descending-specificity */
+
+/* page loading: a thin bar under the header while a section is still loading, and a
+   placeholder frame while the page has no section to show yet */
+body:has(main > .section[data-section-status='loading'])::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 100%;
+  height: 0.4rem;
+  background: linear-gradient(90deg, transparent 0%, var(--sirchie-accent) 50%, transparent 100%);
+  background-size: 50% 100%;
+  animation: page-loading-bar 1.2s linear infinite;
+}
+
+main:has(> .section[data-section-status='loading']):not(:has(> .section[data-section-status='loaded']))::before {
+  content: '';
+  display: block;
+  box-sizing: border-box;
+  max-width: var(--sirchie-content-width);
+  height: 32rem;
+  margin: var(--sirchie-space-2xl) auto;
+  padding: 0 var(--sirchie-space-lg);
+  background:
+    linear-gradient(var(--sirchie-surface), var(--sirchie-surface)) 0 0 / 40% 4rem no-repeat,
+    linear-gradient(var(--sirchie-surface), var(--sirchie-surface)) 0 6rem / 100% 26rem no-repeat;
+  background-origin: content-box;
+  opacity: 0.8;
+}
+
+@keyframes page-loading-bar {
+  from { background-position: -50% 0; }
+  to { background-position: 150% 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body:has(main > .section[data-section-status='loading'])::after {
+    animation: none;
+    background: var(--sirchie-accent);
+  }
+}

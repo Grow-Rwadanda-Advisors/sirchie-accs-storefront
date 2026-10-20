@@ -351,6 +351,8 @@ export default async function decorate(block) {
 
   async function toggleMiniCart(state) {
     if (state) {
+      // the mega menu closes so the cart panel is not opened behind it
+      toggleAllNavSections(navSections, false);
       await loadMiniCartFragment();
       const { publishShoppingCartViewEvent } = await import('@dropins/storefront-cart/api.js');
       publishShoppingCartViewEvent();
